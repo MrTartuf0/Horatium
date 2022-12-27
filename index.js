@@ -18,33 +18,42 @@ import fs from 'fs'
 
 	// Subjects of each class
 
-	await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_pubblico/Classi/4CIA.html`);
+	let allSchedules = {}
 
-  	const data = await page.evaluate(() => {
-		let subjects = document.querySelectorAll('td.nodecWhite , td.nodecBlack')
-    	let tds = Array.from(subjects)
-
-		for(let i=0 ; i<subjects.length ; i++){
-			tds[i] = subjects[i].rowSpan + tds[i].textContent
+	for(let i=0 ; i<allClasses.length ; i++){
+		await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_pubblico/Classi/${allClasses[i]}.html`);
+	
+		  const data = await page.evaluate(() => {
+			let subjects = document.querySelectorAll('td.nodecWhite , td.nodecBlack')
+			let tds = Array.from(subjects)
+	
+			for(let i=0 ; i<subjects.length ; i++){
+				tds[i] = subjects[i].rowSpan + tds[i].textContent
+			}
+	
+			return tds
+		  });
+		  
+		let schedule = [] 
+		  
+		  for(let i=0 ; i<data.length ; i++){
+			let paragraph = data[i].split("\n")
+			schedule.push(
+				paragraph.filter(empty => empty!='' && empty!='\u00A0')
+			)
 		}
-
-		return tds
-  	});
-	  
-	let schedule = [] 
-	  
-  	for(let i=0 ; i<data.length ; i++){
-		let paragraph = data[i].split("\n")
-		schedule.push(
-			paragraph.filter(empty => empty!='' && empty!='\u00A0')
-		)
+		Object.assign(allSchedules, {[allClasses[i]]: schedule});
 	}
-		
-	fs.writeFile("schedule.json", JSON.stringify(schedule), function(err, result) {
+	
+	
+	fs.writeFile("schedule.json", JSON.stringify(allSchedules), function(err, result) {
 		if(err) console.log('error', err);
 	});
-		
-	console.log(schedule);
+
+
+	console.log(allSchedules)
+
+
 
 	await browser.close();
 })();
