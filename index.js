@@ -2,30 +2,22 @@ import puppeteer from "puppeteer"
 import fs from 'fs'
 
 
-
 (async () => {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
+	
 	// List of all the classrooms
 	await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_pubblico/`);
 
-  	const data = await page.evaluate(() => {
+  	const allClasses = await page.evaluate(() => {
 		let classes = Array.from(document.querySelectorAll('p a.mathema'))
-
 		return classes.map(e => e.textContent)
   	});
 
-	fs.writeFile("classes.json", JSON.stringify(data), function(err, result) {
-		if(err) console.log('error', err);
-	});
+	console.log(allClasses)
 
-	await browser.close();
-})();
+	// Subjects of each class
 
-
-(async () => {
-	const browser = await puppeteer.launch();
-	const page = await browser.newPage();
 	await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_pubblico/Classi/4CIA.html`);
 
   	const data = await page.evaluate(() => {
@@ -53,6 +45,7 @@ import fs from 'fs'
 	});
 		
 	console.log(schedule);
-  	
+
 	await browser.close();
 })();
+
