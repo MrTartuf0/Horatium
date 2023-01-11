@@ -57,13 +57,15 @@ import fs from 'fs'
 
 			(paragraph.length >= 6)
 			?objParagraph = {
+				type: 'subject',
 				height: paragraph[0],
 				color: paragraph[1],
 				backgroundColor: paragraph[2],
 				subject: paragraph[3],
 				teacher: paragraph[4],
 				classRoom: paragraph[paragraph.length-1],
-				classNumber: paragraph[paragraph.length-1].slice(0, 3).replace('-', '')
+				// Utilizzo le regex per prendere solo il numero dalla stringa
+				classNumber: paragraph[paragraph.length-1].replace(/\D/g, "")
 			}
 			:objParagraph = {
 				backgroundColor: null,
