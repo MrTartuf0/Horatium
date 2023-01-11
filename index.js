@@ -41,7 +41,7 @@ import fs from 'fs'
 			
 			// Rimuovi i primi 7 elementi
 			// cioè lo spazio bianco in alto a sinitra e i giorni
-			return tds.slice(7)
+			return tds
 		  });
 		  
 		let schedule = [] 
@@ -50,8 +50,9 @@ import fs from 'fs'
 			// Creo un array seperando la stringa di prima
 			// E tolgo i caratteri inutili con filter
 			let paragraph = data[i].split("\n").filter(empty => empty!='' && empty!='\u00A0')
-			
-			// .filter(dash => dash!='-')
+			console.log(paragraph)
+
+
 			let objParagraph
 
 			(paragraph.length >= 6)
@@ -61,15 +62,13 @@ import fs from 'fs'
 				backgroundColor: paragraph[2],
 				subject: paragraph[3],
 				teacher: paragraph[4],
-				classRoom: paragraph[paragraph.length-1]
+				classRoom: paragraph[paragraph.length-1],
+				classNumber: paragraph[paragraph.length-1].slice(0, 3).replace('-', '')
 			}
 			:objParagraph = {
+				backgroundColor: null,
 				height: paragraph[0],
-				color: null,
-				backgroundColor: paragraph[2],
-				subject: null,
-				teacher: null,
-				classRoom: null
+				date: (paragraph.length == 4) ? paragraph[paragraph.length-1] : null 
 			}
 
 			
@@ -83,7 +82,7 @@ import fs from 'fs'
 		if(err) console.log('error', err);
 	});
 
-	console.log(allSchedules)
+	// console.log(allSchedules)
 
 	await browser.close();
 })();

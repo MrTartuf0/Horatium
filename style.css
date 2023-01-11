@@ -10,10 +10,11 @@ body{
 
 .grid{
     display: grid;
-    grid-template-columns: repeat(7 , 1fr);
-    grid-template-rows: repeat(6 , 1fr);
+    grid-template-columns: 1fr repeat(6 , 4fr);
+    grid-template-rows: 1fr repeat(6 , 4fr);
     gap: 16px;
-
+    width: 1000px;
+    height: 1000px;
 }
 
 .item{

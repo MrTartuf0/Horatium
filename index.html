@@ -11,10 +11,14 @@
 <body>
     
     <div id="app">
-        
-        {{ orario[selectedClass][3] }}        
-
-
+        <span>Cerca la Classe: </span><input type="text" v-model="selectedClass">
+        <div class="grid">
+            <div class="item" :class=" 'h' + materie.height " v-for="materie in orario[selectedClass]">
+                {{ materie.classNumber }}
+                {{ materie.subject }}
+                {{ materie.date }}
+            </div>
+        </div>
     </div>
 
 
