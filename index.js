@@ -39,8 +39,6 @@ import fs from 'fs'
 				subjects[i].textContent
 			}
 			
-			// Rimuovi i primi 7 elementi
-			// cioè lo spazio bianco in alto a sinitra e i giorni
 			return tds
 		  });
 		  
@@ -52,6 +50,8 @@ import fs from 'fs'
 			let paragraph = data[i].split("\n").filter(empty => empty!='' && empty!='\u00A0')
 			console.log(paragraph)
 
+			let classRoom = paragraph[paragraph.length-1]
+			let classNumber = classRoom.replace(/\D/g, "")
 
 			let objParagraph
 
@@ -63,9 +63,9 @@ import fs from 'fs'
 				backgroundColor: paragraph[2],
 				subject: paragraph[3],
 				teacher: paragraph[4],
-				classRoom: paragraph[paragraph.length-1],
+				classRoom: classRoom,
 				// Utilizzo le regex per prendere solo il numero dalla stringa
-				classNumber: paragraph[paragraph.length-1].replace(/\D/g, "")
+				classNumber: (+classNumber > 200) ? classNumber.slice(0,-1) : classNumber
 			}
 			:objParagraph = {
 				backgroundColor: null,

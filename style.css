@@ -8,6 +8,8 @@
 
 body{
     min-height: 100vh;
+    background-color: black;
+    color: white;
 }
 
 .grid{
@@ -15,8 +17,8 @@ body{
     grid-template-columns: 1fr repeat(6 , 4fr);
     grid-template-rows: 1fr repeat(6 , 4fr);
     gap: 16px;
-    width: 1000px;
-    height: 1000px;
+    width: 50vw;
+    height: 50vw;
 }
 
 .item{

@@ -11,10 +11,14 @@
 <body>
     
     <div id="app">
-        <span>Cerca la Classe: </span><input type="text" v-model="selectedClass">
+        
+        <label>Seleziona la classe: </label>
+        <select v-model="selectedClass">
+            <option v-for="classe in classi">{{ classe }}</option>
+        </select>
         <div class="grid">
             <div class="item" :class=" 'h' + materie.height " :style="{backgroundColor: materie.backgroundColor}"  v-for="materie in orario[selectedClass]">
-                <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color}">
+                <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'d0'}">
                     <p>{{ materie.classNumber }}</p>
                     <p>{{ materie.subject }}</p>
                 </div>
