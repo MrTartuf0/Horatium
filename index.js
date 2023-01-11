@@ -24,32 +24,64 @@ import fs from 'fs'
 			// Prendi tutti gli elementi con il tag td
 			let subjects = document.querySelectorAll('td')
 			// trasformali in array
-			let tds = Array.from(subjects) 
+			let tds = Array(subjects.length) 
 
-			// per ogni materia
+			// per ogni materia prendi il text context lo spazio occupato per righe e il colore
+			// bisogna aggiungere il \n dopo ogni caratteristica ,
+			// perche dopo fara lo split('\n') e trasformera la stringa in un array
 			for(let i=0 ; i<subjects.length ; i++){
-				tds[i] = subjects[i].rowSpan + tds[i].textContent
+				tds[i] = 
+				subjects[i].rowSpan +
+				'\n' + 
+				subjects[i].getAttribute('color') + 
+				'\n' + 
+				subjects[i].getAttribute('bgcolor') + 
+				subjects[i].textContent
 			}
-	
+			
+			// Rimuovi i primi 7 elementi
+			// cioè lo spazio bianco in alto a sinitra e i giorni
 			return tds.slice(7)
 		  });
 		  
 		let schedule = [] 
 		  
 		  for(let i=0 ; i<data.length ; i++){
-			let paragraph = data[i].split("\n")
-			schedule.push(
-				paragraph.filter(empty => empty!='' && empty!='\u00A0')
-			)
+			// Creo un array seperando la stringa di prima
+			// E tolgo i caratteri inutili con filter
+			let paragraph = data[i].split("\n").filter(empty => empty!='' && empty!='\u00A0')
+			
+			// .filter(dash => dash!='-')
+			let objParagraph
+
+			(paragraph.length >= 6)
+			?objParagraph = {
+				height: paragraph[0],
+				color: paragraph[1],
+				backgroundColor: paragraph[2],
+				subject: paragraph[3],
+				teacher: paragraph[4],
+				classRoom: paragraph[paragraph.length-1]
+			}
+			:objParagraph = {
+				height: paragraph[0],
+				color: null,
+				backgroundColor: paragraph[2],
+				subject: null,
+				teacher: null,
+				classRoom: null
+			}
+
+			
+			schedule.push(objParagraph)
 		}
-		Object.assign(allSchedules, {["c"+allClasses[i]]: schedule});
+		Object.assign(allSchedules, {[allClasses[i]]: schedule});
 	}
 	
 	
-	fs.writeFile("schedule.json", JSON.stringify(allSchedules), function(err, result) {
+	fs.writeFile("schedule.json", JSON.stringify(allSchedules, null, 4), function(err, result) {
 		if(err) console.log('error', err);
 	});
-
 
 	console.log(allSchedules)
 

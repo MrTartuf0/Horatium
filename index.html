@@ -12,23 +12,7 @@
     
     <div id="app">
         
-        <div class="classi" v-for="sezione in classi"> {{sezione}} </div>
-
-        <div class="infoClasse" v-for="classe in orario">
-
-            <h2> {{ sezione }} </h2>
-
-            <div class="grid">
-                <div class="item" :class="'h' + materie[0]" v-for="materie in classe">
-                    <p>{{ materie[1] }}</p>
-                    <p v-if="materie[materie.length-1] != '1' && materie[materie.length-1][materie[materie.length-1].length-1] != '0'">
-                        {{ materie[materie.length-1] }}
-                    </p>
-                </div>
-            </div>
-
-        </div>
-
+        {{ orario[selectedClass][3] }}        
 
 
     </div>
@@ -43,7 +27,7 @@
                 return{
                     classi,
                     orario,
-                    inputClasse: "c4CIA",
+                    selectedClass: "4CIA",
                 }
             },
             methods: {
