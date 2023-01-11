@@ -51,3 +51,22 @@ body{
 .subjects p:first-child{
     font-size: 40px;
 }
+
+.split, .left{
+    display: grid;
+    grid-template-columns: repeat(2 , 1fr);
+}
+
+.year , .section{
+    display: flex;
+    flex-direction: column;
+}
+
+.year button , .section button{
+    padding: 16px;
+    margin: 16px 32px;
+    background-color: white;
+    color: black;
+    font-size: 20px;
+    border-radius: 8px;
+}

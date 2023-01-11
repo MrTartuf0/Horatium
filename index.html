@@ -11,21 +11,41 @@
 <body>
     
     <div id="app">
-        
-        <label>Seleziona la classe: </label>
-        <select v-model="selectedClass">
-            <option v-for="classe in classi">{{ classe }}</option>
-        </select>
-        <div class="grid">
-            <div class="item" :class=" 'h' + materie.height " :style="{backgroundColor: materie.backgroundColor}"  v-for="materie in orario[selectedClass]">
-                <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'d0'}">
-                    <p>{{ materie.classNumber }}</p>
-                    <p>{{ materie.subject }}</p>
+        <div class="split">
+
+            <section class="left">
+                <div class="year">
+                    <p>Scegli l'anno: </p>
+                    <button v-for="index in 5" @click="updateYear(index)">
+                        {{ index }}
+                    </button>
                 </div>
-                <p v-else class="dates">
-                    {{ materie.date }}
-                </p>
-            </div>
+                <div class="section">
+                    <p>Scegli la sezione: </p>    
+                    <button v-for="classi in classiMatrice[selectedYear-1]">
+                        {{ classi }}
+                    </button>
+                </div>
+            </section>
+    
+            <section class="right">
+                <label>Seleziona la classe: </label>
+                <select v-model="selectedClass">
+                    <option v-for="classe in classi">{{ classe }}</option>
+                </select>
+                <div class="grid">
+                    <div class="item" :class=" 'h' + materie.height " :style="{backgroundColor: materie.backgroundColor}"  v-for="materie in orario[selectedClass]">
+                        <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'d0'}">
+                            <p>{{ materie.classNumber }}</p>
+                            <p>{{ materie.subject }}</p>
+                        </div>
+                        <p v-else class="dates">
+                            {{ materie.date }}
+                        </p>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </div>
 
@@ -34,15 +54,24 @@
     <script type="module">
         import orario from './schedule.json' assert { type: "json" }
         import classi from './classes.json' assert { type: "json" }
+        import classiMatrice from './classesMatrix.json' assert { type: "json" }
         let app = Vue.createApp({
             data(){
                 return{
                     classi,
+                    classiMatrice,
                     orario,
+                    selectedYear: 0,
                     selectedClass: "4CIA",
                 }
             },
             methods: {
+                updateYear(year) {
+                    this.selectedYear = year
+                    console.log(this.selectedYear)
+                }
+            },
+            computed: {
                 
             }
         })

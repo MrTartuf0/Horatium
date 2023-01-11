@@ -80,12 +80,34 @@ import fs from 'fs'
 	}
 	
 	
-	fs.writeFile("schedule.json", JSON.stringify(allSchedules, null, 4), function(err, result) {
+	fs.writeFile("schedule.json", JSON.stringify(allSchedules, null, 4), (err, result) => {
 		if(err) console.log('error', err);
 	});
 
-	// console.log(allSchedules)
+	fs.writeFile("classes.json", JSON.stringify(allClasses, null, 4), (err, result) => {
+		if(err) console.log('error', err);
+	});
 
+
+	let classesMatrix = []
+	for(let i=0 ; i<5 ; i++){
+		let singleYear = []
+		for(let j=0 ; j<allClasses.length ; j++){
+			if(allClasses[j][0] == i+1){
+				singleYear.push(allClasses[j])
+			}
+		}
+		classesMatrix.push(singleYear)
+	}
+
+	fs.writeFile("classesMatrix.json", JSON.stringify(classesMatrix, null, 4), (err, result) => {
+		if(err) console.log('error', err);
+	});
+
+
+
+	// console.log(allSchedules)
+	
 	await browser.close();
 })();
 
