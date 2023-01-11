@@ -14,24 +14,24 @@ import fs from 'fs'
 		return classes.map(e => e.textContent)
   	});
 
-	console.log(allClasses)
-
 	// Subjects of each class
-
 	let allSchedules = {}
 
 	for(let i=0 ; i<allClasses.length ; i++){
 		await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_pubblico/Classi/${allClasses[i]}.html`);
 	
 		  const data = await page.evaluate(() => {
-			let subjects = document.querySelectorAll('td.nodecWhite , td.nodecBlack')
-			let tds = Array.from(subjects)
-	
+			// Prendi tutti gli elementi con il tag td
+			let subjects = document.querySelectorAll('td')
+			// trasformali in array
+			let tds = Array.from(subjects) 
+
+			// per ogni materia
 			for(let i=0 ; i<subjects.length ; i++){
 				tds[i] = subjects[i].rowSpan + tds[i].textContent
 			}
 	
-			return tds
+			return tds.slice(7)
 		  });
 		  
 		let schedule = [] 
@@ -42,7 +42,7 @@ import fs from 'fs'
 				paragraph.filter(empty => empty!='' && empty!='\u00A0')
 			)
 		}
-		Object.assign(allSchedules, {[allClasses[i]]: schedule});
+		Object.assign(allSchedules, {["c"+allClasses[i]]: schedule});
 	}
 	
 	
@@ -52,8 +52,6 @@ import fs from 'fs'
 
 
 	console.log(allSchedules)
-
-
 
 	await browser.close();
 })();

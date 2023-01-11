@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    
+    <div id="app">
+        
+        <div class="classi" v-for="sezione in classi"> {{sezione}} </div>
+
+        <div class="infoClasse" v-for="classe in orario">
+
+            <h2> {{ sezione }} </h2>
+
+            <div class="grid">
+                <div class="item" :class="'h' + materie[0]" v-for="materie in classe">
+                    <p>{{ materie[1] }}</p>
+                    <p v-if="materie[materie.length-1] != '1' && materie[materie.length-1][materie[materie.length-1].length-1] != '0'">
+                        {{ materie[materie.length-1] }}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <script type="module">
+        import orario from './schedule.json' assert { type: "json" }
+        import classi from './classes.json' assert { type: "json" }
+        let app = Vue.createApp({
+            data(){
+                return{
+                    classi,
+                    orario,
+                    inputClasse: "c4CIA",
+                }
+            },
+            methods: {
+                
+            }
+        })
+
+        const mountedApp = app.mount('#app')
+
+    </script>
+</body>
+</html>

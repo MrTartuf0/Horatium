@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    min-height: 100vh;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(7 , 1fr);
+    grid-template-rows: repeat(6 , 1fr);
+    gap: 16px;
+
+}
+
+.item{
+    background-color: lightblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.h1{
+    grid-row: span 1;
+}
+
+.h2{
+    grid-row: span 2;
+}
