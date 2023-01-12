@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     
@@ -39,7 +40,7 @@
                 
                 <div class="grid">
                     <div class="item" :class=" 'h' + materie.height " :style="{backgroundColor: materie.backgroundColor}"  v-for="materie in orario[selectedClass]">
-                        <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'d0'}" @click="zoomSubject()">
+                        <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'e0'}" @click="zoomSubject()">
                             <p>{{ materie.classNumber }}</p>
                             <p>{{ materie.subject }}</p>
                         </div>
