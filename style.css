@@ -19,6 +19,7 @@ body{
     gap: 16px;
     width: 50vw;
     height: 50vw;
+    position: relative;
 }
 
 .item{

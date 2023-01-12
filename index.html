@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -57,10 +56,11 @@
 
 
     <script type="module">
+        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
         import orario from './schedule.json' assert { type: "json" }
         import classi from './classes.json' assert { type: "json" }
         import classiMatrice from './classesMatrix.json' assert { type: "json" }
-        let app = Vue.createApp({
+        let app = createApp({
             data(){
                 return{
                     classi,
