@@ -86,11 +86,15 @@
             mounted() {
                 if (localStorage.selectedClass) {
                     this.selectedClass = localStorage.selectedClass;
+                    this.selectedYear = localStorage.selectedYear;
                 }
             },
             watch: {
                 selectedClass(newSelectedClass) {
-                localStorage.selectedClass = newSelectedClass;
+                    localStorage.selectedClass = newSelectedClass;
+                },
+                selectedYear(newSelectedYear) {
+                    localStorage.selectedYear = newSelectedYear;
                 }
             }
         })

@@ -52,7 +52,7 @@
             "sizes": "384x384"
         },
         {
-            "src": "/img/icons/clock-icon-512px.png",
+            "src": "./img/icons/clock-icon-512px.png",
             "type": "image/png",
             "sizes": "512x512"
         }
