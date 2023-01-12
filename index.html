@@ -22,20 +22,24 @@
                 </div>
                 <div class="section">
                     <p>Scegli la sezione: </p>    
-                    <button v-for="classi in classiMatrice[selectedYear-1]">
-                        {{ classi }}
-                    </button>
+                    <div class="grid-button">
+                        <button v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
+                            {{ classe }}
+                        </button>
+                    </div>
                 </div>
             </section>
     
             <section class="right">
+                
                 <label>Seleziona la classe: </label>
                 <select v-model="selectedClass">
                     <option v-for="classe in classi">{{ classe }}</option>
                 </select>
+                
                 <div class="grid">
                     <div class="item" :class=" 'h' + materie.height " :style="{backgroundColor: materie.backgroundColor}"  v-for="materie in orario[selectedClass]">
-                        <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'d0'}">
+                        <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'d0'}" @click="zoomSubject()">
                             <p>{{ materie.classNumber }}</p>
                             <p>{{ materie.subject }}</p>
                         </div>
@@ -69,10 +73,24 @@
                 updateYear(year) {
                     this.selectedYear = year
                     console.log(this.selectedYear)
+                },
+                updateSection(classe){
+                    this.selectedClass = classe
+                    console.log(this.selectedClass)
                 }
             },
             computed: {
                 
+            },
+            mounted() {
+                if (localStorage.selectedClass) {
+                    this.selectedClass = localStorage.selectedClass;
+                }
+            },
+            watch: {
+                selectedClass(newSelectedClass) {
+                localStorage.selectedClass = newSelectedClass;
+                }
             }
         })
 
