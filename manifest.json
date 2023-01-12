@@ -1,7 +1,7 @@
 {
     "name": "Horatium : ITT Allievi Sangallo's - School Timetable",
     "short_name": "Horatium",
-    "start_url": "/index.html",
+    "start_url": "./index.html",
     "scope": ".",
     "display": "standalone",
     "background_color": "#fff",
@@ -12,42 +12,42 @@
     "orientation": "portrait-primary",
     "icons":[
         {
-            "src": "/img/icons/clock-icon-48px.png",
+            "src": "./img/icons/clock-icon-48px.png",
             "type": "image/png",
             "sizes": "48x48"
         },
         {
-            "src": "/img/icons/clock-icon-72px.png",
+            "src": "./img/icons/clock-icon-72px.png",
             "type": "image/png",
             "sizes": "72x72"
         },
         {
-            "src": "/img/icons/clock-icon-96px.png",
+            "src": "./img/icons/clock-icon-96px.png",
             "type": "image/png",
             "sizes": "96x96"
         },
         {
-            "src": "/img/icons/clock-icon-144px.png",
+            "src": "./img/icons/clock-icon-144px.png",
             "type": "image/png",
             "sizes": "144x144"
         },
         {
-            "src": "/img/icons/clock-icon-168px.png",
+            "src": "./img/icons/clock-icon-168px.png",
             "type": "image/png",
             "sizes": "168x168"
         },
         {
-            "src": "/img/icons/clock-icon-192px.png",
+            "src": "./img/icons/clock-icon-192px.png",
             "type": "image/png",
             "sizes": "192x192"
         },
         {
-            "src": "/img/icons/clock-icon-256px.png",
+            "src": "./img/icons/clock-icon-256px.png",
             "type": "image/png",
             "sizes": "256x256"
         },
         {
-            "src": "/img/icons/clock-icon-384px.png",
+            "src": "./img/icons/clock-icon-384px.png",
             "type": "image/png",
             "sizes": "384x384"
         },
