@@ -44,6 +44,11 @@ body{
     grid-row: span 2;
 }
 
+.h3{
+    grid-row: span 3;
+}
+
+
 .subjects{
     font-weight: 500;
 }
