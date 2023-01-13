@@ -162,6 +162,11 @@ button:hover{
     color: white;
 }
 
+.right h1{
+    font-size: 40px;
+    text-align: center;
+}
+
 /* Disable google translate popup */
 #google_translate_element{width:300px;float:right;text-align:right;display:block}
 .goog-te-banner-frame.skiptranslate { display: none !important;} 

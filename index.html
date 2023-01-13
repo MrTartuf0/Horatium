@@ -40,11 +40,8 @@
             </div>
     
             <section class="right">
-                
-                <label>Seleziona la classe: </label>
-                <select v-model="selectedClass">
-                    <option v-for="classe in classi">{{ classe }}</option>
-                </select>
+
+                <h1>{{selectedClass}}</h1>
                 
                 <div class="grid">
                     <div class="item" 
@@ -58,7 +55,7 @@
                             <p>{{ materie.classNumber }}</p>
                             <p v-show="isSelected">{{ materie.teacher }}</p>
                             <p v-show="isSelected">{{ materie.classRoom }}</p>
-                            <p>{{ materie.subject }}</p>
+                            <p v-if="windowWidth>800">{{ materie.subject }}</p>
                         </div>
                         <p v-else-if="windowWidth>800" class="dates">
                             {{ materie.date }}
