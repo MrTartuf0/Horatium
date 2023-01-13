@@ -22,6 +22,10 @@ body{
     position: relative;
 }
 
+.grid:has(.itemZoom) .item:not(.itemZoom){
+    display: none;
+}
+
 .item{
     display: flex;
     flex-direction: column;
@@ -34,7 +38,6 @@ body{
 .item:hover{
     cursor: pointer;
 }
-
 
 .itemZoom{
     position: absolute;
@@ -77,31 +80,48 @@ body{
     font-size: 40px;
 }
 
-.split, .left{
+ 
+.split{
     display: grid;
-    grid-template-columns: repeat(2 , 1fr);
+    grid-auto-flow: column;
+	scroll-snap-type: x mandatory;	
+	-webkit-overflow-scrolling: touch;
+	overflow-x: scroll;
 }
 
-.year , .section{
-    display: flex;
-    flex-direction: column;
+.split > *{
+    min-width: 100vw;
+    height: 100vh;
+    scroll-snap-align: start;
 }
 
-.year button , .section button{
+.split > *:nth-child(odd){
+    background-color: royalblue;
+}
+
+
+.year button , .section button , .type button{
     padding: 16px;
     margin: 8px 16px;
     background-color: white;
     color: black;
     font-size: 20px;
     border-radius: 8px;
+    width: 60%;
 }
 
 .grid-button{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 49vw);
 }
 
 
 button:hover{
     cursor: pointer;
 }
+
+/* disable scroll bar */
+::-webkit-scrollbar {
+    display: none;
+}
+ 

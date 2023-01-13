@@ -16,22 +16,28 @@
     <div id="app" v-cloak>
         <div class="split">
 
-            <section class="left">
-                <div class="year">
-                    <p>Scegli l'anno: </p>
-                    <button v-for="index in 5" @click="updateYear(index)">
-                        {{ index }}
+            <div class="type">
+                <p>Scegli il tipo di orario: </p>
+                <button>Classi</button>
+                <button>Docenti</button>
+                <button>Aule</button>
+            </div>
+
+            <div class="year">
+                <p>Scegli l'anno: </p>
+                <button v-for="index in 5" @click="updateYear(index)">
+                    {{ index }}
+                </button>
+            </div>
+
+            <div class="section">
+                <p>Scegli la sezione: </p>    
+                <div class="grid-button">
+                    <button v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
+                        {{ classe }}
                     </button>
                 </div>
-                <div class="section">
-                    <p>Scegli la sezione: </p>    
-                    <div class="grid-button">
-                        <button v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
-                            {{ classe }}
-                        </button>
-                    </div>
-                </div>
-            </section>
+            </div>
     
             <section class="right">
                 
@@ -61,6 +67,23 @@
                 </div>
             </section>
 
+            <div class="settings">
+                <h1>Impostazioni:</h1>
+                <label>Tema: </label>
+                <select>
+                    <option>Chiaro</option>
+                    <option>Scuro</option>
+                </select>
+
+                <label>Tema: </label>
+                <select>
+                    <option>Chiaro</option>
+                    <option>Scuro</option>
+                </select>
+
+            </div>
+
+
         </div>
     </div>
 
@@ -68,8 +91,8 @@
 
     <script type="module">
         import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
-        import orario from './schedule.json' assert { type: "json" }
-        import classi from './classes.json' assert { type: "json" }
+        import orario from './data/publicSchedule.json' assert { type: "json" }
+        import classi from './data/Classi.json' assert { type: "json" }
         import classiMatrice from './classesMatrix.json' assert { type: "json" }
         let app = createApp({
             data(){
@@ -80,6 +103,7 @@
                     selectedYear: 0,
                     selectedIndex: -1,
                     isSelected: false,
+                    selectedType: '',
                     selectedClass: "4CIA",
                 }
             },
