@@ -5,12 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="shortcut icon" href="./img/icons/favicon.ico" type="image/x-icon">
 </head>
 <body>
     
-    <div id="app">
+    <div id="app" v-cloak>
         <div class="split">
 
             <section class="left">
@@ -38,8 +39,14 @@
                 </select>
                 
                 <div class="grid">
-                    <div class="item" :class=" 'h' + materie.height " :style="{backgroundColor: materie.backgroundColor}"  v-for="materie in orario[selectedClass]">
-                        <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'e0'}" @click="zoomSubject()">
+                    <div class="item" 
+                    :class=" 'h' + materie.height , {itemZoom: index == selectedIndex} " 
+                    :style="{backgroundColor: materie.backgroundColor}"  
+                    v-for="(materie , index) in orario[selectedClass]" 
+                    @click="zoomSubject(index)" 
+                    >
+                        
+                        <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'e0'}" >
                             <p>{{ materie.classNumber }}</p>
                             <p>{{ materie.subject }}</p>
                         </div>
@@ -67,6 +74,7 @@
                     classiMatrice,
                     orario,
                     selectedYear: 0,
+                    selectedIndex: -1,
                     selectedClass: "4CIA",
                 }
             },
@@ -78,10 +86,11 @@
                 updateSection(classe){
                     this.selectedClass = classe
                     console.log(this.selectedClass)
+                },
+                zoomSubject(index){
+                    this.selectedIndex = index
+                    console.log(this.selectedIndex)
                 }
-            },
-            computed: {
-                
             },
             mounted() {
                 if (localStorage.selectedClass) {

@@ -88,7 +88,7 @@ import fs from 'fs'
 		if(err) console.log('error', err);
 	});
 
-
+	// Suddivisione delle classi a seconda dell'anno
 	let classesMatrix = []
 	for(let i=0 ; i<5 ; i++){
 		let singleYear = []
