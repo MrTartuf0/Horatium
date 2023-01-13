@@ -8,7 +8,7 @@
 
 body{
     min-height: 100vh;
-    background-color: #0d1117;
+    background-color: #1a1a1a;
     color: white;
 }
 
@@ -110,9 +110,23 @@ body{
     width: 60%;
 }
 
+.move{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    margin: 16px 0;
+}
+
+.move button{
+    padding: 16px;
+    border-radius: 8px;
+}
+
 .grid-button{
     display: grid;
-    grid-template-columns: repeat(2, 49vw);
+    grid-template-columns: repeat(3, 1fr);
 }
 
 
@@ -125,3 +139,8 @@ button:hover{
     display: none;
 }
  
+.move{
+    position: absolute;
+    bottom:0;
+    left:0;
+}

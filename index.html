@@ -18,14 +18,14 @@
 
             <div class="type">
                 <p>Scegli il tipo di orario: </p>
-                <button>Classi</button>
-                <button>Docenti</button>
-                <button>Aule</button>
+                <button v-for="scheduleType in scheduleTypes" @click="avanti()"> 
+                    {{ scheduleType }}
+                </button>
             </div>
 
             <div class="year">
                 <p>Scegli l'anno: </p>
-                <button v-for="index in 5" @click="updateYear(index)">
+                <button v-for="index in 5" @click="updateYear(index) , avanti()">
                     {{ index }}
                 </button>
             </div>
@@ -33,7 +33,7 @@
             <div class="section">
                 <p>Scegli la sezione: </p>    
                 <div class="grid-button">
-                    <button v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
+                    <button v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe) , avanti()">
                         {{ classe }}
                     </button>
                 </div>
@@ -70,33 +70,52 @@
             <div class="settings">
                 <h1>Impostazioni:</h1>
                 <label>Tema: </label>
-                <select>
+                <select v-model="selectedTheme">
                     <option>Chiaro</option>
                     <option>Scuro</option>
                 </select>
 
-                <label>Tema: </label>
+                <label>Font: </label>
                 <select>
-                    <option>Chiaro</option>
-                    <option>Scuro</option>
+                    <option>Jetbrains Mono</option>
+                    <option>Poppins</option>
+                    <option>Inter</option>
                 </select>
 
             </div>
-
-
         </div>
+
+        <div class="move">
+            <button @click="indietro()">
+                <i class="fa-solid fa-angles-left"></i>
+                Indietro
+            </button>
+            <button @click="avanti()">
+                Avanti
+                <i class="fa-solid fa-angles-right"></i>
+            </button>
+        </div>
+
     </div>
 
 
 
     <script type="module">
         import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
-        import orario from './data/publicSchedule.json' assert { type: "json" }
+        
         import classi from './data/Classi.json' assert { type: "json" }
         import classiMatrice from './classesMatrix.json' assert { type: "json" }
+        import Docenti from './data/Docenti.json' assert { type: "json" }
+        import aule from './data/Aule.json' assert { type: "json" }
+        
+        import orario from './data/publicSchedule.json' assert { type: "json" }
+        import orarioDocenti from './data/teacherSchedule.json' assert { type: "json" }
+        import orarioAule from './data/classRoomsSchedule.json' assert { type: "json" }
+        
         let app = createApp({
             data(){
                 return{
+                    scheduleTypes: ['Classi', 'Docenti', 'Aule'],
                     classi,
                     classiMatrice,
                     orario,
@@ -122,6 +141,22 @@
                     console.log(this.selectedIndex)
                     console.log(this.isSelected)
                 },
+                avanti(){
+                    document.querySelector('.split').scrollBy({
+                        top: 0,
+                        left: window.innerWidth,
+                        behavior: 'smooth'
+                    })
+                    console.log('avanti')
+                },
+                indietro(){
+                    document.querySelector('.split').scrollBy({
+                        top: 0,
+                        left: -window.innerWidth,
+                        behavior: 'smooth'
+                    })
+                    console.log('indietro')
+                },
             },
             mounted() {
                 if (localStorage.selectedClass) {
@@ -136,7 +171,7 @@
                 selectedYear(newSelectedYear) {
                     localStorage.selectedYear = newSelectedYear;
                 }
-            }
+            },
         })
 
         const mountedApp = app.mount('#app')
