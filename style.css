@@ -17,7 +17,7 @@ body{
     grid-template-columns: 1fr repeat(6 , 4fr);
     grid-template-rows: 1fr repeat(6 , 4fr);
     gap: 16px;
-    width: 50vw;
+    width: 100vw;
     height: 50vw;
     position: relative;
 }
@@ -87,6 +87,7 @@ body{
 	scroll-snap-type: x mandatory;	
 	-webkit-overflow-scrolling: touch;
 	overflow-x: scroll;
+    transition: all 1s;
 }
 
 .split > *{
@@ -144,3 +145,29 @@ button:hover{
     bottom:0;
     left:0;
 }
+
+.home{
+    position: absolute;
+    bottom: 0;    
+    right: 0;
+    padding: 16px;
+}
+
+.home:hover{
+    cursor: pointer;
+}
+
+.home i{
+    font-size: 50px;
+    color: white;
+}
+
+/* Disable google translate popup */
+#google_translate_element{width:300px;float:right;text-align:right;display:block}
+.goog-te-banner-frame.skiptranslate { display: none !important;} 
+body { top: 0px !important; }
+#goog-gt-tt{display: none !important; top: 0px !important; } 
+.goog-tooltip skiptranslate{display: none !important; top: 0px !important; } 
+.activity-root { display: hide !important;} 
+.status-message { display: hide !important;}
+.started-activity-container { display: hide !important;}

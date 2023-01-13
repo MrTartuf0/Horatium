@@ -96,6 +96,10 @@
             </button>
         </div>
 
+        <div class="home" @click="home()">
+            <i class="fa-solid fa-house"></i>
+        </div>
+
     </div>
 
 
@@ -156,6 +160,15 @@
                         behavior: 'smooth'
                     })
                     console.log('indietro')
+                },
+                home(){
+                    document.querySelector('.split').scroll({
+                        top: 0,
+                        left: 0,
+                        behavior: 'smooth'
+                    })
+                    console.log('indietro')
+                    
                 },
             },
             mounted() {
