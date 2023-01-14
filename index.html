@@ -18,27 +18,44 @@
 
             <div class="type">
                 <p>Scegli il tipo di orario: </p>
-                <button v-for="scheduleType in scheduleTypes" @click="avanti()"> 
+                <button v-for="scheduleType in scheduleTypes" @click="updateType(scheduleType)"> 
                     {{ scheduleType }}
                 </button>
             </div>
 
-            <div class="year">
+            <!-- <div class="year" v-if="selectedType == 'Classi'">
                 <p>Scegli l'anno: </p>
-                <button v-for="index in 5" @click="updateYear(index) , avanti()">
+                <button v-for="index in 5" @click="updateYear(index)">
                     {{ index }}
                 </button>
-            </div>
+            </div> -->
 
-            <div class="section">
+            <div class="section" v-if="selectedType == 'Classi'">
                 <p>Scegli la sezione: </p>    
                 <div class="grid-button">
-                    <button v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe) , avanti()">
+                    <button v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
                         {{ classe }}
                     </button>
                 </div>
             </div>
     
+            
+            <div class="teacher" v-if="selectedType == 'Docenti'">
+                <p>Scegli il docente: </p>
+                <div class="docente-grid-button">
+                    <button v-for="docente in Docenti" @click="updateSection(docente)">
+                        {{ docente }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="teacher" v-if="selectedType == 'Aule'">
+                <p>Scegli l'aula: </p>
+                <button v-for="aula in aule" @click="updateSection(aula)">
+                    {{ aula }}
+                </button>
+            </div>
+
             <section class="right">
 
                 <h1>{{selectedClass}}</h1>
@@ -47,7 +64,7 @@
                     <div class="item" 
                     :class=" 'h' + materie.height , {itemZoom: index == selectedIndex && isSelected} " 
                     :style="{backgroundColor: materie.backgroundColor}"  
-                    v-for="(materie , index) in orario[selectedClass]" 
+                    v-for="(materie , index) in orario[selectedType][selectedClass]" 
                     @click="zoomSubject(index)" 
                     >
                         
@@ -105,25 +122,27 @@
         import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
         
         import classi from './data/Classi.json' assert { type: "json" }
-        import classiMatrice from './classesMatrix.json' assert { type: "json" }
+        import classiMatrice from './data/classesMatrix.json' assert { type: "json" }
         import Docenti from './data/Docenti.json' assert { type: "json" }
         import aule from './data/Aule.json' assert { type: "json" }
         
-        import orario from './data/publicSchedule.json' assert { type: "json" }
-        import orarioDocenti from './data/teacherSchedule.json' assert { type: "json" }
-        import orarioAule from './data/classRoomsSchedule.json' assert { type: "json" }
+        import orario from './data/Schedule.json' assert { type: "json" }
         
         let app = createApp({
             data(){
                 return{
-                    scheduleTypes: ['Classi', 'Docenti', 'Aule'],
                     classi,
                     classiMatrice,
+                    aule,
+                    Docenti,
+                    
                     orario,
+                    
                     selectedYear: 0,
                     selectedIndex: -1,
+                    scheduleTypes: ['Classi', 'Docenti', 'Aule'],
                     isSelected: false,
-                    selectedType: '',
+                    selectedType: 'Classi',
                     selectedClass: "4CIA",
                     windowWidth: window.innerWidth
                 }
@@ -132,10 +151,17 @@
                 updateYear(year) {
                     this.selectedYear = year
                     console.log(this.selectedYear)
+                    this.avanti()
                 },
                 updateSection(classe){
                     this.selectedClass = classe
                     console.log(this.selectedClass)
+                    this.avanti()
+                },
+                updateType(scheduleType){
+                    this.selectedType = scheduleType
+                    console.log(this.selectedType)
+                    this.avanti()
                 },
                 zoomSubject(index){
                     this.selectedIndex = index
@@ -166,7 +192,6 @@
                         behavior: 'smooth'
                     })
                     console.log('indietro')
-                    
                 },
             },
             mounted() {
@@ -183,6 +208,11 @@
                     localStorage.selectedYear = newSelectedYear;
                 }
             },
+            computed: {
+                getOrario() {
+                    return this[`orario${selectedType}`][selectedClass]
+                }
+            }
         })
 
         const mountedApp = app.mount('#app')

@@ -18,7 +18,7 @@ body{
     grid-template-rows: 1fr repeat(6 , 4fr);
     gap: 16px;
     width: 100vw;
-    height: 50vw;
+    height: 40vw;
     position: relative;
 }
 
@@ -96,12 +96,26 @@ body{
     scroll-snap-align: start;
 }
 
-.split > *:nth-child(odd){
+.split > *:nth-child(even){
     background-color: royalblue;
 }
 
+.teacher{
+    height: 100vw;
+}
 
-.year button , .section button , .type button{
+.docente-grid-button{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    overflow-y: scroll;
+
+}
+
+.teacher{
+    grid-column: span 2;
+}
+
+.year button , .section button , .type button , .teacher button{
     padding: 16px;
     margin: 8px 16px;
     background-color: white;
@@ -137,7 +151,7 @@ button:hover{
 
 /* disable scroll bar */
 ::-webkit-scrollbar {
-    display: none;
+    /* display: none; */
 }
  
 .move{

@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer"
+import puppeteer, { ConsoleMessage } from "puppeteer"
 import fs from 'fs'
 
 var dir = './data';
@@ -6,7 +6,6 @@ var dir = './data';
 if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
 }
-
 
 (async () => {
 	const browser = await puppeteer.launch();
@@ -35,9 +34,9 @@ if (!fs.existsSync(dir)){
 
 	
 	let fileNames = [['Classi' , 'Docenti' , 'Aule', ],
-	[allClasses , allTeachers , allClassRooms, ],
-	['publicSchedule.json' , 'teacherSchedule.json' , 'classRoomsSchedule.json']]
+	[allClasses , allTeachers , allClassRooms, ]]
 
+	let keySchedule = {}
 	
 	// SCRAPER CLASSI PER OGNI CLASSE, PER OGNI DOCENTE, E PER OGNI AULA 
 	for(let k=0 ; k<3 ; k++){
@@ -110,18 +109,24 @@ if (!fs.existsSync(dir)){
 			Object.assign(allSchedules, {[fileNames[1][k][i]]: schedule});
 		
 		}
+		// Sopra ci sta keyschedule = {}
+		Object.assign(keySchedule, {[fileNames[0][k]]: allSchedules});
+		console.log(`${fileNames[0][k]} salvati!`);
+		
 
+		// Questo solo per le liste di nomi, classi, e aule
 		fs.writeFile(`./data/${fileNames[0][k]}.json`, JSON.stringify(fileNames[1][k], null, 4), (err, result) => {
 			if(err) console.log('error', err);
 		});
-
-		fs.writeFile(`./data/${fileNames[2][k]}`, JSON.stringify(allSchedules, null, 4), (err, result) => {
-			if(err) console.log('error', err);
-		});
-
+		
 	}
 	
 
+	// // Tutti gli orari in un unico file
+	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, 4), (err, result) => {
+		if (err) throw err;
+	});
+	
 
 	// Suddivisione delle classi a seconda dell'anno
 	let classesMatrix = []
@@ -136,7 +141,7 @@ if (!fs.existsSync(dir)){
 	}
 	
 	// Esporto in JSON un array suddiviso per indice, es [0] = tutte le classi prime e cosi via
-	fs.writeFile("classesMatrix.json", JSON.stringify(classesMatrix, null, 4), (err, result) => {
+	fs.writeFile("./data/classesMatrix.json", JSON.stringify(classesMatrix, null, 4), (err, result) => {
 		if(err) console.log('error', err);
 	});
 
