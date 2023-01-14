@@ -6,7 +6,6 @@
     "display": "standalone",
     "background_color": "#fff",
     "theme_color": "#0089FF",
-    "description": "Just a school timetable used by the school ITT Allievi Sangallo",
     "dir": "ltr",
     "lang": "it-IT",
     "orientation": "portrait-primary",

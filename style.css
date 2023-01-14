@@ -1,14 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;700;800&display=swap');
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', monospace;
+
 }
 
 body{
     min-height: 100vh;
-    background-color: #1a1a1a;
+    background-color: #000000;
     color: white;
 }
 
@@ -91,7 +92,7 @@ body{
 }
 
 .split > *{
-    min-width: 100vw;
+    width: 100vw;
     height: 100vh;
     scroll-snap-align: start;
 }
@@ -100,19 +101,22 @@ body{
     background-color: royalblue;
 }
 
-.teacher{
-    height: 100vw;
+.split > * > p {
+    font-size: 42px;
 }
 
-.docente-grid-button{
+.teacher{
+    height: 100vh;
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.docente-grid-button , .aula-grid-button{
     display: grid;
     grid-template-columns: repeat(4,1fr);
     overflow-y: scroll;
-
-}
-
-.teacher{
-    grid-column: span 2;
+    height: calc(100vh - 1rem);
 }
 
 .year button , .section button , .type button , .teacher button{
@@ -125,18 +129,29 @@ body{
     width: 60%;
 }
 
-.move{
+.menuBar{
     display: flex;
     width: 100%;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    gap: 32px;
-    margin: 16px 0;
+    gap: -100px;
+    padding: 8px 0;
+    position: absolute;
+    bottom:0;
+    left:0;
+    backdrop-filter: blur(10px);
+    background-color: #1a1a1b;
 }
 
-.move button{
-    padding: 16px;
-    border-radius: 8px;
+.menu-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+.menu-item p{
+    font-size: 20px;
 }
 
 .grid-button{
@@ -151,46 +166,13 @@ button:hover{
 
 /* disable scroll bar */
 ::-webkit-scrollbar {
-    /* display: none; */
-}
- 
-.move{
-    position: absolute;
-    bottom:0;
-    left:0;
-}
-
-.home{
-    position: absolute;
-    bottom: 0;    
-    right: 0;
-    padding: 16px;
-}
-
-.home:hover{
-    cursor: pointer;
-}
-
-.home i{
-    font-size: 42px;
-    color: white;
+    display: none;
 }
 
 .right h1{
     font-size: 40px;
     text-align: center;
 }
-
-/* Disable google translate popup */
-#google_translate_element{width:300px;float:right;text-align:right;display:block}
-.goog-te-banner-frame.skiptranslate { display: none !important;} 
-body { top: 0px !important; }
-#goog-gt-tt{display: none !important; top: 0px !important; } 
-.goog-tooltip skiptranslate{display: none !important; top: 0px !important; } 
-.activity-root { display: hide !important;} 
-.status-message { display: hide !important;}
-.started-activity-container { display: hide !important;}
-
 
 @media only screen and (max-width: 800px) {
     

@@ -115,15 +115,17 @@ if (!fs.existsSync(dir)){
 		
 
 		// Questo solo per le liste di nomi, classi, e aule
-		fs.writeFile(`./data/${fileNames[0][k]}.json`, JSON.stringify(fileNames[1][k], null, 4), (err, result) => {
+		fs.writeFile(`./data/${fileNames[0][k]}.json`, JSON.stringify(fileNames[1][k], null, null), (err, result) => {
 			if(err) console.log('error', err);
 		});
 		
 	}
 	
 
-	// // Tutti gli orari in un unico file
-	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, 4), (err, result) => {
+	// Tutti gli orari in un unico file
+	// il secondo null è per togliere l'identazione dal json
+	// salvando 1.2mb di spazio 
+	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, null), (err, result) => {
 		if (err) throw err;
 	});
 	
@@ -141,7 +143,7 @@ if (!fs.existsSync(dir)){
 	}
 	
 	// Esporto in JSON un array suddiviso per indice, es [0] = tutte le classi prime e cosi via
-	fs.writeFile("./data/classesMatrix.json", JSON.stringify(classesMatrix, null, 4), (err, result) => {
+	fs.writeFile("./data/classesMatrix.json", JSON.stringify(classesMatrix, null, null), (err, result) => {
 		if(err) console.log('error', err);
 	});
 

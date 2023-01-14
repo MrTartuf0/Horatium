@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="IT">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#000000"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horatium</title>
     <link rel="stylesheet" href="./style.css">
+    <!-- Webapp icon and additional information -->
     <link rel="manifest" href="./manifest.json">
     <link rel="shortcut icon" href="./img/icons/favicon.ico" type="image/x-icon">
     <!-- Font awesome -->
@@ -51,9 +53,11 @@
 
             <div class="teacher" v-if="selectedType == 'Aule'">
                 <p>Scegli l'aula: </p>
-                <button v-for="aula in aule" @click="updateSection(aula)">
-                    {{ aula }}
-                </button>
+                <div class="aula-grid-button">
+                    <button v-for="aula in aule" @click="updateSection(aula)">
+                        {{ aula }}
+                    </button>
+                </div>
             </div>
 
             <section class="right">
@@ -81,6 +85,10 @@
                 </div>
             </section>
 
+            <div class="search">
+
+            </div>
+
             <div class="settings">
                 <h1>Impostazioni:</h1>
                 <label>Tema: </label>
@@ -94,24 +102,17 @@
                     <option>Jetbrains Mono</option>
                     <option>Poppins</option>
                     <option>Inter</option>
+                    <option>Jost</option>
                 </select>
 
             </div>
         </div>
 
-        <div class="move">
-            <button @click="indietro()">
-                <i class="fa-solid fa-angles-left"></i>
-                Indietro
-            </button>
-            <button @click="avanti()">
-                Avanti
-                <i class="fa-solid fa-angles-right"></i>
-            </button>
-        </div>
-
-        <div class="home" @click="home()">
-            <i class="fa-solid fa-house"></i>
+        <div class="menuBar">
+            <div class="menu-item" v-for="(item , index) in menuBar[0]">
+                <i :class="menuBar[1][index]"></i>
+                <p>{{ item }}</p>
+            </div>
         </div>
 
     </div>
@@ -138,12 +139,18 @@
                     
                     orario,
                     
+                    menuBar: [
+                        ['Home' , 'Orario' , 'Ricerca' , 'Impostazioni'],
+                        ['fa-solid fa-house' , 'fa-regular fa-clock' , 'fa-solid fa-magnifying-glass' , 'fa-solid fa-gear'],
+                    ],
+
+                    lastCheckedMenu: 0,
                     selectedYear: 0,
                     selectedIndex: -1,
                     scheduleTypes: ['Classi', 'Docenti', 'Aule'],
                     isSelected: false,
                     selectedType: 'Classi',
-                    selectedClass: "4CIA",
+                    selectedClass: '',
                     windowWidth: window.innerWidth
                 }
             },
@@ -191,13 +198,15 @@
                         left: 0,
                         behavior: 'smooth'
                     })
-                    console.log('indietro')
+                    console.log('Home')
                 },
             },
             mounted() {
                 if (localStorage.selectedClass) {
                     this.selectedClass = localStorage.selectedClass;
                     this.selectedYear = localStorage.selectedYear;
+                    this.selectedType = localStorage.selectedType
+                    window.scrollTo(0, 0)
                 }
             },
             watch: {
@@ -206,13 +215,11 @@
                 },
                 selectedYear(newSelectedYear) {
                     localStorage.selectedYear = newSelectedYear;
-                }
+                },
+                selectedType(newSelectedType) {
+                    localStorage.selectedType = newSelectedType;
+                },
             },
-            computed: {
-                getOrario() {
-                    return this[`orario${selectedType}`][selectedClass]
-                }
-            }
         })
 
         const mountedApp = app.mount('#app')
