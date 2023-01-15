@@ -1,10 +1,9 @@
 {
-    "name": "Horatium : ITT Allievi Sangallo's - School Timetable",
     "short_name": "Horatium",
     "start_url": "./index.html",
     "scope": ".",
     "display": "standalone",
-    "background_color": "#fff",
+    "background_color": "#131313",
     "theme_color": "#0089FF",
     "dir": "ltr",
     "lang": "it-IT",

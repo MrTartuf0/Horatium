@@ -19,20 +19,35 @@
         <div class="split">
 
             <div class="type">
-                <p>Scegli il tipo di orario: </p>
-                <button v-for="scheduleType in scheduleTypes" @click="updateType(scheduleType)"> 
-                    {{ scheduleType }}
-                </button>
+                <h1>Benvenuto! 🎉</h1>
+                <p>Questa app è stata sviluppata dallo studente <span style="color: #4B8DF7;">Vitaliy Didyk</span></p>
+                <p style="padding: 0 0 42px 0; font-size: 20px;">Se ti interessa visualizzare il codice sorgente, clicca il seguente <a href="https://github.com/MrTartuf0/Horatium" style="color: royalblue">link</a></p>
+                <p>Clicca 2 volte per scegliere il tipo di orario: </p>
+                <div class="flex-type">
+                    <button v-for="(scheduleType , index) in scheduleTypes[0]" @click.stop="updateType(scheduleType) , avanti()"> 
+                        <i :class="scheduleTypes[1][index]"></i>
+                        {{ scheduleType }}
+                        <!-- <i class="fa-solid fa-angle-right"></i> -->
+                    </button>
+                </div>
             </div>
 
             <div class="year" v-if="selectedType == 'Classi'">
-                <p>Scegli l'anno: </p>
-                <button v-for="index in 5" @click="updateYear(index)">
-                    {{ index }}
-                </button>
+                <h1>Anno</h1>
+                <p>Seleziona l'anno: </p>
+                <div class="selezione">
+                    <div v-for="index in anni[0]" @click="updateYear(index)">
+                        <p :style="{backgroundColor: anni[2][index-1]}" >{{ index }}</p>
+                        <div>
+                            <p>{{ anni[1][index-1] }}</p>
+                            <i class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="section" v-if="selectedType == 'Classi'">
+                <h1>Sezioni</h1>
                 <p>Scegli la sezione: </p>    
                 <div class="grid-button">
                     <button v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
@@ -43,6 +58,7 @@
     
             
             <div class="teacher" v-if="selectedType == 'Docenti'">
+                <h1>Docenti</h1>
                 <p>Scegli il docente: </p>
                 <div class="docente-grid-button">
                     <button v-for="docente in Docenti" @click="updateSection(docente)">
@@ -60,7 +76,7 @@
                 </div>
             </div>
 
-            <section class="right">
+            <section class="schedule">
 
                 <h1>{{selectedClass}}</h1>
                 
@@ -76,9 +92,9 @@
                             <p>{{ materie.classNumber }}</p>
                             <p v-show="isSelected">{{ materie.teacher }}</p>
                             <p v-show="isSelected">{{ materie.classRoom }}</p>
-                            <p v-if="windowWidth>800">{{ materie.subject }}</p>
+                            <p>{{ materie.subject }}</p>
                         </div>
-                        <p v-else-if="windowWidth>800" class="dates">
+                        <p class="dates">
                             {{ materie.date }}
                         </p>
                     </div>
@@ -86,7 +102,11 @@
             </section>
 
             <div class="search">
-
+                <h1>Ricerca</h1>
+                <p>Cerca qualsiasi cosa: </p>
+                <button v-for="e in everything">
+                    {{ e}}
+                </button>
             </div>
 
             <div class="settings">
@@ -109,7 +129,7 @@
         </div>
 
         <div class="menuBar">
-            <div class="menu-item" v-for="(item , index) in menuBar[0]">
+            <div class="menu-item" v-for="(item , index) in menuBar[0]" @click="changeMode(index)">
                 <i :class="menuBar[1][index]"></i>
                 <p>{{ item }}</p>
             </div>
@@ -126,6 +146,7 @@
         import classiMatrice from './data/classesMatrix.json' assert { type: "json" }
         import Docenti from './data/Docenti.json' assert { type: "json" }
         import aule from './data/Aule.json' assert { type: "json" }
+        import everything from './data/everyClassNameRoom.json' assert { type: "json" }
         
         import orario from './data/schedule.json' assert { type: "json" }
         
@@ -136,6 +157,7 @@
                     classiMatrice,
                     aule,
                     Docenti,
+                    everything,
                     
                     orario,
                     
@@ -144,14 +166,23 @@
                         ['fa-solid fa-house' , 'fa-regular fa-clock' , 'fa-solid fa-magnifying-glass' , 'fa-solid fa-gear'],
                     ],
 
+                    anni: [
+                        [1,2,3,4,5],
+                        ['Primo' , 'Secondo' , 'Terzo' , 'Quarto' , 'Quinto'],
+                        ['#70D370', '#4B8DF7', '#6E4AC0', '#EF904B', '#F7CD4A']
+                    ],
+
                     lastCheckedMenu: 0,
                     selectedYear: 0,
                     selectedIndex: -1,
-                    scheduleTypes: ['Classi', 'Docenti', 'Aule'],
+                    scheduleTypes: [
+                        ['Classi', 'Docenti', 'Aule'],
+                        ['fa-solid fa-graduation-cap','fa-solid fa-chalkboard-user', 'fa-solid fa-users-rectangle']
+                    ],
                     isSelected: false,
                     selectedType: 'Classi',
-                    selectedClass: '',
-                    windowWidth: window.innerWidth
+                    selectedClass: '4CIA',
+                    windowWidth: window.innerWidth,
                 }
             },
             methods: {
@@ -168,7 +199,6 @@
                 updateType(scheduleType){
                     this.selectedType = scheduleType
                     console.log(this.selectedType)
-                    this.avanti()
                 },
                 zoomSubject(index){
                     this.selectedIndex = index
@@ -184,27 +214,26 @@
                     })
                     console.log('avanti')
                 },
-                indietro(){
-                    document.querySelector('.split').scrollBy({
-                        top: 0,
-                        left: -window.innerWidth,
-                        behavior: 'smooth'
-                    })
-                    console.log('indietro')
-                },
-                home(){
+                changeMode(index){
+                    console.clear()
+                    
+                    let nPages = document.querySelector('.split').childElementCount
+                    let selectedMode = nPages - (nPages - index)
+
+                    console.log('Numero di pagine : ' + nPages)
+                    console.log('Numero del indice selezionato : ' + index)
+                    console.log('Numero della schermata selezionaata ' + selectedMode)
+
                     document.querySelector('.split').scroll({
                         top: 0,
                         left: 0,
                         behavior: 'smooth'
                     })
-                    console.log('Home')
                 },
             },
             mounted() {
                 if (localStorage.selectedClass) {
                     this.selectedClass = localStorage.selectedClass;
-                    this.selectedYear = localStorage.selectedYear;
                     this.selectedType = localStorage.selectedType
                     window.scrollTo(0, 0)
                 }
@@ -212,9 +241,6 @@
             watch: {
                 selectedClass(newSelectedClass) {
                     localStorage.selectedClass = newSelectedClass;
-                },
-                selectedYear(newSelectedYear) {
-                    localStorage.selectedYear = newSelectedYear;
                 },
                 selectedType(newSelectedType) {
                     localStorage.selectedType = newSelectedType;

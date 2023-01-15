@@ -32,9 +32,21 @@ if (!fs.existsSync(dir)){
 		return classrooms.map(e => e.textContent)
 	});
 
-	
 	let fileNames = [['Classi' , 'Docenti' , 'Aule', ],
 	[allClasses , allTeachers , allClassRooms, ]]
+
+	let everyClassNameRoom = []
+	fileNames[1].forEach(e => {
+		e.forEach(e => {
+			everyClassNameRoom.push(e)
+		})
+	})
+
+	fs.writeFile(`./data/everyClassNameRoom.json`, JSON.stringify(everyClassNameRoom, null, null), (err, result) => {
+		if(err) console.log('error', err);
+	});		
+
+
 
 	let keySchedule = {}
 	
@@ -117,8 +129,7 @@ if (!fs.existsSync(dir)){
 		// Questo solo per le liste di nomi, classi, e aule
 		fs.writeFile(`./data/${fileNames[0][k]}.json`, JSON.stringify(fileNames[1][k], null, null), (err, result) => {
 			if(err) console.log('error', err);
-		});
-		
+		});		
 	}
 	
 
