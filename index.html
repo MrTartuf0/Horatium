@@ -24,7 +24,7 @@
                 <p style="padding: 0 0 42px 0; font-size: 20px;">Se ti interessa visualizzare il codice sorgente, clicca il seguente <a href="https://github.com/MrTartuf0/Horatium" style="color: royalblue">link</a></p>
                 <p>Clicca 2 volte per scegliere il tipo di orario: </p>
                 <div class="flex-type">
-                    <button v-for="(scheduleType , index) in scheduleTypes[0]" @click.stop="updateType(scheduleType) , avanti()"> 
+                    <button v-for="(scheduleType , index) in scheduleTypes[0]" v-bind="$attrs" @click.stop="updateType(scheduleType) , avanti()"> 
                         <i :class="scheduleTypes[1][index]"></i>
                         {{ scheduleType }}
                         <!-- <i class="fa-solid fa-angle-right"></i> -->
@@ -67,7 +67,8 @@
                 </div>
             </div>
 
-            <div class="teacher" v-if="selectedType == 'Aule'">
+            <div class="classroom" v-if="selectedType == 'Aule'">
+                <h1>Aule</h1>
                 <p>Scegli l'aula: </p>
                 <div class="aula-grid-button">
                     <button v-for="aula in aule" @click="updateSection(aula)">
@@ -129,7 +130,7 @@
         </div>
 
         <div class="menuBar">
-            <div class="menu-item" v-for="(item , index) in menuBar[0]" @click="changeMode(index)">
+            <div class="menu-item" v-for="(item , index) in menuBar[0]" :class="{menuItemSelected : menuBar[2][index]}"  @click="changeMode(index)">
                 <i :class="menuBar[1][index]"></i>
                 <p>{{ item }}</p>
             </div>
@@ -164,6 +165,7 @@
                     menuBar: [
                         ['Home' , 'Orario' , 'Ricerca' , 'Impostazioni'],
                         ['fa-solid fa-house' , 'fa-regular fa-clock' , 'fa-solid fa-magnifying-glass' , 'fa-solid fa-gear'],
+                        [true , false , false , false]
                     ],
 
                     anni: [
@@ -218,15 +220,21 @@
                     console.clear()
                     
                     let nPages = document.querySelector('.split').childElementCount
-                    let selectedMode = nPages - (nPages - index)
+                    let selectedMode = (index == 0) ? index : nPages - (this.menuBar[0].length - index)
 
-                    console.log('Numero di pagine : ' + nPages)
-                    console.log('Numero del indice selezionato : ' + index)
                     console.log('Numero della schermata selezionaata ' + selectedMode)
+
+                    for(let i=0 ; i<this.menuBar[2].length ; i++){
+                        this.menuBar[2][i] = false
+                    }
+                    
+                    this.menuBar[2][index] = true
+
+                    console.log(this.menuBar[2]);
 
                     document.querySelector('.split').scroll({
                         top: 0,
-                        left: 0,
+                        left: this.windowWidth * selectedMode,
                         behavior: 'smooth'
                     })
                 },
