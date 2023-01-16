@@ -63,7 +63,7 @@ body{
     padding: 10px 0;
 }
 .split > *:not(.schedule){
-    padding: 48px 16px 0 16px;
+    padding: 48px 16px 61px 16px;
 }
 
 
@@ -153,6 +153,29 @@ body{
     border-bottom: 1px solid #3B3B3F
 }
 
+/* SECTION/TEACHER/CLASSROOM SELECTION */
+.grid-button{
+    display: grid;
+    grid-template-columns: repeat(2 , 1fr);
+    background-color: #17181b;
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+.grid-button div{
+    color: white;
+    padding: 12px 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.grid-button div:nth-child(odd){
+    border-right: 1px solid #3B3B3F
+}
+.grid-button div:nth-child(odd):not(.grid-button div:nth-child(odd):last-child()){
+    background-color: blue;
+}
+
 
 /* SCHEDULE */
 .schedule h1{
@@ -161,7 +184,7 @@ body{
 }
 .grid{
     display: grid;
-    grid-template-columns: 1fr repeat(6 , 20fr);
+    grid-template-columns: 1fr  repeat(6 , 20fr);
     grid-template-rows: 1fr repeat(6 , 20fr);
     gap: 8px;
     width: 100vw;
@@ -206,6 +229,29 @@ body{
     grid-row: span 3;
 }
 
+
+/* SEARCH */
+.search{
+    display: flex;
+    flex-direction: column;
+}
+.search input{
+    margin: 10px 0;
+    padding: 10px 10px;
+    background-color: #202022;
+    border: none;
+    border-radius: 10px;
+    color: #9A9AA0;
+    font-size: 16px;
+}
+.search input::placeholder{
+    font-size: 16px;
+    color: #9A9AA0;
+    font-family: 'Inter', FontAwesome, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
 
 /* MENU BAR ON THE BOTTOM */
 .menuBar{

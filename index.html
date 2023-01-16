@@ -50,9 +50,9 @@
                 <h1>Sezioni</h1>
                 <p>Scegli la sezione: </p>    
                 <div class="grid-button">
-                    <button v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
+                    <div v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
                         {{ classe }}
-                    </button>
+                    </div>
                 </div>
             </div>
     
@@ -60,20 +60,20 @@
             <div class="teacher" v-if="selectedType == 'Docenti'">
                 <h1>Docenti</h1>
                 <p>Scegli il docente: </p>
-                <div class="docente-grid-button">
-                    <button v-for="docente in Docenti" @click="updateSection(docente)">
+                <div class="grid-button">
+                    <div v-for="docente in Docenti" @click="updateSection(docente)">
                         {{ docente }}
-                    </button>
+                    </div>
                 </div>
             </div>
 
             <div class="classroom" v-if="selectedType == 'Aule'">
                 <h1>Aule</h1>
                 <p>Scegli l'aula: </p>
-                <div class="aula-grid-button">
-                    <button v-for="aula in aule" @click="updateSection(aula)">
+                <div class="grid-button">
+                    <div v-for="aula in aule" @click="updateSection(aula)">
                         {{ aula }}
-                    </button>
+                    </div>
                 </div>
             </div>
 
@@ -86,7 +86,7 @@
                     :class=" 'h' + materie.height , {itemZoom: index == selectedIndex && isSelected} " 
                     :style="{backgroundColor: materie.backgroundColor}"  
                     v-for="(materie , index) in orario[selectedType][selectedClass]" 
-                    @click="zoomSubject(index)" 
+                    @click="zoomSubject(materie , index)" 
                     >
                         
                         <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'e0'}" >
@@ -105,6 +105,7 @@
             <div class="search">
                 <h1>Ricerca</h1>
                 <p>Cerca qualsiasi cosa: </p>
+                <input type="text" placeholder="&#xF002 Cerca qualsiasi cosa: ">
                 <button v-for="e in everything">
                     {{ e}}
                 </button>
@@ -202,9 +203,14 @@
                     this.selectedType = scheduleType
                     console.log(this.selectedType)
                 },
-                zoomSubject(index){
-                    this.selectedIndex = index
-                    this.isSelected = !this.isSelected
+                zoomSubject(materie , index){
+                    console.clear()
+                    if(materie.type != undefined){
+                        this.selectedIndex = index
+                        this.isSelected = !this.isSelected
+                    }
+
+                    console.log(materie.type)
                     console.log(this.selectedIndex)
                     console.log(this.isSelected)
                 },
