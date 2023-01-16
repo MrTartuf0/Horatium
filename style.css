@@ -207,7 +207,6 @@ body{
     position: relative;
     font-size: 9px;
 }
-
 .grid:has(.itemZoom) .item:not(.itemZoom){
     display: none;
 }
@@ -222,6 +221,10 @@ body{
     position: absolute;
     width: 100%;
     height: 100%;
+    font-size: 27px;
+}
+.itemZoom .subjects p:first-child{
+    font-size: 66px;
 }
 .item:hover{
     cursor: pointer;
