@@ -106,9 +106,14 @@
                 <h1>Ricerca</h1>
                 <p>Cerca qualsiasi cosa: </p>
                 <input type="text" placeholder="&#xF002 Cerca qualsiasi cosa: ">
-                <button v-for="e in everything">
-                    {{ e}}
-                </button>
+                <div class="grid-search">
+                    <button v-for="c in Classi" @click="indietro() , updateSection(c)">
+                        {{ c }}
+                    </button>
+                    <button v-for="d in Docenti" @click="indietro() , updateSection(d)">
+                        {{ d }}
+                    </button>
+                </div>
             </div>
 
             <div class="settings">
@@ -218,6 +223,14 @@
                     document.querySelector('.split').scrollBy({
                         top: 0,
                         left: window.innerWidth,
+                        behavior: 'smooth'
+                    })
+                    console.log('avanti')
+                },
+                indietro(){
+                    document.querySelector('.split').scrollBy({
+                        top: 0,
+                        left: -window.innerWidth,
                         behavior: 'smooth'
                     })
                     console.log('avanti')
