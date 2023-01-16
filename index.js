@@ -65,6 +65,9 @@ if (!fs.existsSync(dir)){
 				// trasformali in array
 				let tds = Array(subjects.length) 
 	
+				// MODIFICARE QUI PER L'ALGORITMO DELLE ORE
+				
+
 				// per ogni materia prendi il text context lo spazio occupato per righe e il colore
 				// bisogna aggiungere il \n dopo ogni caratteristica ,
 				// perche dopo fara lo split('\n') e trasformera la stringa in un array
@@ -136,7 +139,7 @@ if (!fs.existsSync(dir)){
 	// Tutti gli orari in un unico file
 	// il secondo null è per togliere l'identazione dal json
 	// salvando 1.2mb di spazio 
-	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, null), (err, result) => {
+	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, 4), (err, result) => {
 		if (err) throw err;
 	});
 	
