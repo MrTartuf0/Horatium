@@ -6,16 +6,15 @@
     <meta name="theme-color" content="#000000"/>
     <meta name="HandheldFriendly" content="true" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    
     <title>Horatium</title>
     
     <!-- Webapp icon and additional information -->
     <link rel="manifest" href="./manifest.json">
-    <link rel="shortcut icon" href="./img/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./assets/favicon-9493e043.ico" type="image/x-icon">
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-  <script type="module" crossorigin src="./assets/index-317ea921.js"></script>
-  <link rel="stylesheet" href="./assets/index-87bc3ecc.css">
+  <script type="module" crossorigin src="./assets/index-c2848c49.js"></script>
+  <link rel="stylesheet" href="./assets/index-8192a46e.css">
 </head>
 <body>
     
@@ -53,9 +52,13 @@
             <div class="section" v-if="selectedType == 'Classi'">
                 <h1>Sezioni</h1>
                 <p>Scegli la sezione: </p>    
-                <div class="grid-button">
-                    <div v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
-                        {{ classe }}
+                <div class="selezione">
+                    <div v-for="(classe , index) in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
+                        <p>{{ emojiMatrix[selectedYear-1][index] }}</p>
+                        <div>
+                            <p>{{ classe }}</p>
+                            <i class="fa-solid fa-angle-right"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,19 +74,33 @@
                 </div>
             </div>
 
+            
+            <div class="classroom" v-if="selectedType == 'Aule'">
+                <h1>Piani</h1>
+                <p>Scegli il piano dell'aula: </p>
+                <div class="grid-button">
+                    <div v-for="piano in piani" @click="updateFloor(piano)">
+                        {{piano}}
+                    </div>
+                    <!-- {{ aule.length-4 > index && aula.replace(/[^\d]/g, '') < 300 || aula.replace(/[^\d]/g, '') == aule[index+1].replace(/[^\d]/g, '') ? aula.replace(/[^\d]/g, '') : aula}} -->
+                </div>
+            </div>
+
+
             <div class="classroom" v-if="selectedType == 'Aule'">
                 <h1>Aule</h1>
                 <p>Scegli l'aula: </p>
                 <div class="grid-button">
-                    <div v-for="aula in aule" @click="updateSection(aula)">
+                    <div v-for="(aula , index) in aule" @click="updateSection(aula)">
                         {{ aula }}
+                        <!-- {{ aule.length-4 > index && aula.replace(/[^\d]/g, '') < 300 || aula.replace(/[^\d]/g, '') == aule[index+1].replace(/[^\d]/g, '') ? aula.replace(/[^\d]/g, '') : aula}} -->
                     </div>
                 </div>
             </div>
 
             <section class="schedule">
 
-                <h1>{{selectedClass}}</h1>
+                <h1>{{ selectedClass }} {{ emoji[selectedClass] }} </h1>
                 
                 <div class="grid">
                     <div class="item" 
@@ -110,13 +127,13 @@
                 <h1>Ricerca</h1>
                 <p>Cerca qualsiasi cosa: </p>
                 <input type="text" placeholder="&#xF002; Cerca qualsiasi cosa: ">
-                <div class="grid-search">
-                    <button v-for="c in Classi" @click="indietro() , updateSection(c)">
+                <div class="grid-button">
+                    <div v-for="c in Classi" @click="indietro() , updateSection(c)">
                         {{ c }}
-                    </button>
-                    <button v-for="d in Docenti" @click="indietro() , updateSection(d)">
+                    </div>
+                    <div v-for="d in Docenti" @click="indietro() , updateSection(d)">
                         {{ d }}
-                    </button>
+                    </div>
                 </div>
             </div>
 
