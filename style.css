@@ -197,7 +197,7 @@ body{
     grid-template-rows: 1fr repeat(6 , 20fr);
     gap: 8px;
     width: 100vw;
-    height: calc(100% - 164px);
+    height: 100vw;
     position: relative;
     font-size: 9px;
 }
@@ -253,8 +253,10 @@ body{
     background-color: #202022;
     border: none;
     border-radius: 10px;
-    color: #9A9AA0;
-    font-size: 16px
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
 }
 .search input::placeholder{
     font-size: 16px;
@@ -264,6 +266,9 @@ body{
     font-weight: normal;
     text-decoration: inherit;
 }
+::-webkit-input-placeholder {
+    text-align:center;
+ }
 
 /* SETTINGS */
 .aggiorna{
@@ -307,36 +312,28 @@ body{
 }
 .menu-item p{
     font-size: 10px;
+    text-overflow: ellipsis;
 }
 .menu-item i{
     font-size: 24px;
 }
 
 
-
-@media only screen and (max-width: 800px) {
-/*     
+/* DESKTOP PORT VIEW */
+@media only screen and (min-width: 800px) {
     .grid{
-        grid-template-columns: 1px repeat(6 , 4fr);
-        grid-template-rows: 1px repeat(6 , 4fr);
-        gap: 8px;
-        width: 100vw;
-        height: 100vw;
-        transform: translateX(-4px);
+        height: calc(100% - 164px);
     }
-
-    
-    .itemZoom{
-        font-size: 16px;
+    .item p{
+        font-size: 12px;
     }
-
+    .itemZoom .subjects p {
+        font-size: 27px;
+    }
     .itemZoom .subjects p:first-child{
-        font-size: 32px;
+        font-size: calc(66px * 1.5);
     }
     .subjects p:first-child{
-        font-size: 20px;
+        font-size: calc(22px * 1.5);
     }
-    .subjects p{
-        font-size: 6px;
-    } */
 } 
