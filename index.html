@@ -137,6 +137,12 @@
 
             <div class="settings">
                 <h1>Impostazioni:</h1>
+
+                <div class="aggiorna" @click="updatePage()">
+                    <p>Aggiorna la pagina </p>
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                </div>
+
                 <label>Tema: </label>
                 <select v-model="selectedTheme">
                     <option>Chiaro</option>
@@ -287,6 +293,10 @@
                         behavior: 'smooth'
                     })
                 },
+                updatePage(){
+                    localStorage.clear()
+                    window.location.reload();
+                }
             },
             mounted() {
                 if (localStorage.selectedClass) {
