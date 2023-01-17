@@ -102,12 +102,14 @@ body{
 }
 
 
-/* YEAR SELECTION */
+/* YEAR SELECTION & SECTION SELECTION */
 .selezione{
     display: flex;
-    background-color: #17181b;
     flex-direction: column;
     border-radius: 10px;
+    max-height: calc(100% - 61px);
+    padding: 0 0 61px 0;
+    overflow-y: scroll;
 }
 .selezione div:hover{
     cursor: pointer;
@@ -128,6 +130,7 @@ body{
     font-size: 16px;
     align-items: center;
     height: 100%;
+    background-color: #17181b;
 }
 .selezione div i{
     color: #56575C;
