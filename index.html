@@ -113,6 +113,7 @@
                             <p v-show="isSelected">{{ materie.teacher }}</p>
                             <p v-show="isSelected">{{ materie.classRoom }}</p>
                             <p>{{ materie.subject }}</p>
+                            <i v-show="isSelected" class="fa-solid fa-xmark"></i>
                         </div>
                         <p class="dates">
                             {{ materie.date }}
@@ -262,6 +263,7 @@
                         behavior: 'smooth'
                     })
                     console.log('avanti')
+                    this.isSelected = false
                 },
                 indietro(){
                     document.querySelector('.split').scrollBy({
@@ -270,6 +272,7 @@
                         behavior: 'smooth'
                     })
                     console.log('indietro')
+                    this.isSelected = false
                 },
                 changeMode(index){
                     console.clear()
@@ -292,6 +295,9 @@
                         left: this.windowWidth * selectedMode,
                         behavior: 'smooth'
                     })
+
+                    this.isSelected = false
+                    
                 },
                 updatePage(){
                     localStorage.clear()

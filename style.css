@@ -227,6 +227,14 @@ body{
     font-size: 22px;
     font-weight: 700;
 }
+
+.item i{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    
+}
+
 .item p{
     text-align: center;
 }
