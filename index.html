@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./style.css">
     <!-- Webapp icon and additional information -->
     <link rel="manifest" href="./manifest.json">
-    <link rel="shortcut icon" href="./img/icons/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./public/img/icons/favicon.ico" type="image/x-icon">
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
@@ -50,9 +50,13 @@
             <div class="section" v-if="selectedType == 'Classi'">
                 <h1>Sezioni</h1>
                 <p>Scegli la sezione: </p>    
-                <div class="grid-button">
-                    <div v-for="classe in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
-                        {{ classe }}
+                <div class="selezione">
+                    <div v-for="(classe , index) in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
+                        <p>{{ emojiMatrix[selectedYear-1][index] }}</p>
+                        <div>
+                            <p>{{ classe }}</p>
+                            <i class="fa-solid fa-angle-right"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -68,19 +72,33 @@
                 </div>
             </div>
 
+            
+            <div class="classroom" v-if="selectedType == 'Aule'">
+                <h1>Piani</h1>
+                <p>Scegli il piano dell'aula: </p>
+                <div class="grid-button">
+                    <div v-for="piano in piani" @click="updateFloor(piano)">
+                        {{piano}}
+                    </div>
+                    <!-- {{ aule.length-4 > index && aula.replace(/[^\d]/g, '') < 300 || aula.replace(/[^\d]/g, '') == aule[index+1].replace(/[^\d]/g, '') ? aula.replace(/[^\d]/g, '') : aula}} -->
+                </div>
+            </div>
+
+
             <div class="classroom" v-if="selectedType == 'Aule'">
                 <h1>Aule</h1>
                 <p>Scegli l'aula: </p>
                 <div class="grid-button">
-                    <div v-for="aula in aule" @click="updateSection(aula)">
+                    <div v-for="(aula , index) in aule" @click="updateSection(aula)">
                         {{ aula }}
+                        <!-- {{ aule.length-4 > index && aula.replace(/[^\d]/g, '') < 300 || aula.replace(/[^\d]/g, '') == aule[index+1].replace(/[^\d]/g, '') ? aula.replace(/[^\d]/g, '') : aula}} -->
                     </div>
                 </div>
             </div>
 
             <section class="schedule">
 
-                <h1>{{selectedClass}}</h1>
+                <h1>{{ selectedClass }} {{ emoji[selectedClass] }} </h1>
                 
                 <div class="grid">
                     <div class="item" 
@@ -107,13 +125,13 @@
                 <h1>Ricerca</h1>
                 <p>Cerca qualsiasi cosa: </p>
                 <input type="text" placeholder="&#xF002; Cerca qualsiasi cosa: ">
-                <div class="grid-search">
-                    <button v-for="c in Classi" @click="indietro() , updateSection(c)">
+                <div class="grid-button">
+                    <div v-for="c in Classi" @click="indietro() , updateSection(c)">
                         {{ c }}
-                    </button>
-                    <button v-for="d in Docenti" @click="indietro() , updateSection(d)">
+                    </div>
+                    <div v-for="d in Docenti" @click="indietro() , updateSection(d)">
                         {{ d }}
-                    </button>
+                    </div>
                 </div>
             </div>
 
@@ -155,12 +173,17 @@
         import Docenti from './data/Docenti.json' assert { type: "json" }
         import aule from './data/Aule.json' assert { type: "json" }
         import everything from './data/everyClassNameRoom.json' assert { type: "json" }
+        import emoji from './data/classEmoji.json' assert { type: "json" }
+        import emojiMatrix from './data/classEmojiMatrix.json' assert { type: "json" }
         
         import orario from './data/schedule.json' assert { type: "json" }
         
         let app = createApp({
             data(){
                 return{
+                    emoji,
+                    emojiMatrix,
+
                     classi,
                     classiMatrice,
                     aule,
@@ -180,9 +203,11 @@
                         ['Primo' , 'Secondo' , 'Terzo' , 'Quarto' , 'Quinto'],
                         ['#70D370', '#4B8DF7', '#6E4AC0', '#EF904B', '#F7CD4A']
                     ],
+                    piani: ['Piano Terra' , 'Primo Piano' , 'Secondo Piano'],
 
                     lastCheckedMenu: 0,
                     selectedYear: 0,
+                    selectedFloor: '',
                     selectedIndex: -1,
                     scheduleTypes: [
                         ['Classi', 'Docenti', 'Aule'],
@@ -195,6 +220,10 @@
                 }
             },
             methods: {
+                updateFloor(piano){
+                    console.log(piano)
+                    this.avanti()
+                },
                 updateYear(year) {
                     this.selectedYear = year
                     console.log(this.selectedYear)
@@ -234,7 +263,7 @@
                         left: -window.innerWidth,
                         behavior: 'smooth'
                     })
-                    console.log('avanti')
+                    console.log('indietro')
                 },
                 changeMode(index){
                     console.clear()

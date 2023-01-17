@@ -103,37 +103,37 @@ body{
 
 
 /* YEAR SELECTION */
-.year .selezione{
+.selezione{
     display: flex;
     background-color: #17181b;
     flex-direction: column;
     border-radius: 10px;
 }
-.year .selezione div:hover{
+.selezione div:hover{
     cursor: pointer;
 }
-.year .selezione div:active{
+.selezione div:active{
     background-color: #3a3a3c;
 }
 /* Making sure that it keeps the rounded corner on the last and first child element */
-.year .selezione > div:first-child , .year .selezione > div:first-child div{
+.selezione > div:first-child , .year .selezione > div:first-child div{
     border-radius: 10px 10px 0 0;
 }
-.year .selezione > div:last-child , .year .selezione > div:last-child div{
+.selezione > div:last-child , .year .selezione > div:last-child div{
     border-radius: 0 0 10px 10px;
 }
-.year .selezione div{
+.selezione div{
     display: flex;
     font-weight: 500;
     font-size: 16px;
     align-items: center;
     height: 100%;
 }
-.year .selezione div i{
+.selezione div i{
     color: #56575C;
     padding: 0 16px 0 0;
 }
-.year .selezione > div > p {
+.selezione > div > p {
     margin: 12px 12px 12px 16px;
     border-radius: 6px;
     display: flex;
@@ -142,21 +142,21 @@ body{
     justify-content: center;
     align-items: center;
 }
-.year .selezione > div > div{
+.selezione > div > div{
     height: 56px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: calc(100% - 64px);
 }
-.year .selezione > div > div:not(.year .selezione > div:last-child > div){
+.selezione > div > div:not(.selezione > div:last-child > div){
     border-bottom: 1px solid #3B3B3F
 }
 
 /* SECTION/TEACHER/CLASSROOM SELECTION */
 .grid-button{
-    display: grid;
-    grid-template-columns: repeat(2 , 1fr);
+    display: flex;
+    flex-direction: column;
     border-radius: 10px;
     overflow-y: scroll;
     height: calc(100% - 61px);
@@ -170,12 +170,10 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.grid-button div:nth-child(odd){
-    border-right: 1px solid #3B3B3F
-}
-.grid-button div{
     border-bottom: 1px solid #3B3B3F
+}
+.grid-button div:last-child{
+    border-radius: 0 0 10px 10px;
 }
 .grid-button div:hover{
     cursor: pointer;
@@ -183,13 +181,6 @@ body{
 .grid-button div:active{
     background-color: #3a3a3c;
 }
-.grid-button div:last-child{
-    border-radius: 0 0 10px 10px;
-}
-.grid-button div:nth-last-child(2){
-    border-radius: 0 0 10px 10px;
-}
-
 
 
 /* SCHEDULE */
@@ -252,11 +243,6 @@ body{
 .search{
     display: flex;
     flex-direction: column;
-}
-.grid-search{
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
 }
 .search input{
     margin: 10px 0;

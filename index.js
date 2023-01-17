@@ -1,5 +1,6 @@
 import puppeteer, { ConsoleMessage } from "puppeteer"
 import fs from 'fs'
+import { sign } from "crypto";
 
 var dir = './data';
 
@@ -139,28 +140,102 @@ if (!fs.existsSync(dir)){
 	// Tutti gli orari in un unico file
 	// il secondo null è per togliere l'identazione dal json
 	// salvando 1.2mb di spazio 
-	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, 4), (err, result) => {
+	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, null), (err, result) => {
 		if (err) throw err;
 	});
 	
+	// Aggiunta di emoji per tipologia di classe
+	let classEmoji = []
+	let claSection
+	for(let j=0 ; j<allClasses.length ; j++){
+		claSection = allClasses[j].slice(-2)
+		let singleEmoji		
+		switch(claSection) {
+			case 'IT' || 'IA':
+				singleEmoji = '💻'
+				break;
+			case 'IA':
+				singleEmoji = '💻'
+				break;
+			case 'TL':
+				singleEmoji = '📡'
+				break;
+			case 'MM':
+				singleEmoji = '⚙️'
+				break;
+			case 'AM':
+				singleEmoji = '⚙️'
+				break;
+			case 'CAT':
+				singleEmoji = '✏️'
+				break;
+			case 'CA':
+				singleEmoji = '✏️'
+				break;
+			case 'CM':
+				singleEmoji = '🧪'
+				break;
+			case 'AC':
+				singleEmoji = '🧪'
+				break;
+			case 'BS':
+				singleEmoji = '🧬'
+				break;
+			case 'EE':
+				singleEmoji = '⚡'
+				break;
+			case 'ET':
+				singleEmoji = '🔌'
+				break;
+			case 'EC':
+				singleEmoji = '🔋'
+				break;
+			case 'LG':
+				singleEmoji = '🛵'
+				break;
+			case 'AT':
+				singleEmoji = '🦾'
+				break;
+			default:
+			  singleEmoji = '🫤'
+		}
+		classEmoji.push(singleEmoji)
+	}
 
 	// Suddivisione delle classi a seconda dell'anno
 	let classesMatrix = []
+	let classEmojiMatrix = []
 	for(let i=0 ; i<5 ; i++){
 		let singleYear = []
+		let emojiGroup = []
 		for(let j=0 ; j<allClasses.length ; j++){
 			if(allClasses[j][0] == i+1){
 				singleYear.push(allClasses[j])
+				emojiGroup.push(classEmoji[j])
 			}
 		}
 		classesMatrix.push(singleYear)
+		classEmojiMatrix.push(emojiGroup)
 	}
 	
+	let classEmojiObj = {}
+
+	for(let i=0 ; i<classEmoji.length ; i++){
+		Object.assign(classEmojiObj, {[allClasses[i]]: classEmoji[i]});
+	}
+
+	console.log(classEmojiObj);
+
 	// Esporto in JSON un array suddiviso per indice, es [0] = tutte le classi prime e cosi via
 	fs.writeFile("./data/classesMatrix.json", JSON.stringify(classesMatrix, null, null), (err, result) => {
 		if(err) console.log('error', err);
 	});
-
+	fs.writeFile("./data/classEmoji.json", JSON.stringify(classEmojiObj, null, null), (err, result) => {
+		if(err) console.log('error', err);
+	});
+	fs.writeFile("./data/classEmojiMatrix.json", JSON.stringify(classEmojiMatrix, null, null), (err, result) => {
+		if(err) console.log('error', err);
+	});
 
 	
 	await browser.close();
