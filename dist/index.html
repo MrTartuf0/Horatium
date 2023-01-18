@@ -13,8 +13,8 @@
     <link rel="shortcut icon" href="./assets/favicon-9493e043.ico" type="image/x-icon">
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-  <script type="module" crossorigin src="./assets/index-f381651a.js"></script>
-  <link rel="stylesheet" href="./assets/index-8404eba0.css">
+  <script type="module" crossorigin src="./assets/index-3d6b8cca.js"></script>
+  <link rel="stylesheet" href="./assets/index-d48c1199.css">
 </head>
 <body>
     
@@ -87,7 +87,7 @@
             </div>
 
 
-            <div class="classroom" v-if="selectedType == 'Aule'">
+            <div class="classroom" v-if="selectedType == 'Aule' ">
                 <h1>Aule</h1>
                 <p>Scegli l'aula: </p>
                 <div class="grid-button">
@@ -124,7 +124,6 @@
                 </div> 
                 
                 <div class="hour">
-                    
                 </div>
 
             </section>
@@ -135,16 +134,15 @@
                 <input type="text" placeholder="&#xF002; Cerca qualsiasi cosa: " v-model="searchQuery">
                 <div class="grid-button">
                     
-                    <!-- <div v-for="classe in classi" @click="updateSearchOption(classe , 'Classi')">
-                        {{ /CIA/gmi.test(classe) }}
-                    </div> -->
+                    <div v-show="regexExpression.test(docente)" v-for="classe in classi" @click="updateSearchOption(classe , 'Classi')">
+                        {{ classe }}
+                    </div>
 
-                    <div v-for="docente in Docenti" @click="updateSearchOption(docente , 'Docenti')">
-                        {{ regexExpression }}
-                        {{ searchQuery }}
+                    <div v-show="regexExpression.test(docente)" v-for="docente in Docenti" @click="updateSearchOption(docente , 'Docenti')">
+                        {{ docente }}
                     </div>
                     
-                    <div v-for="aula in aule" @click="updateSearchOption(aula , 'Aule')">
+                    <div v-show="regexExpression.test(docente)" v-for="aula in aule" @click="updateSearchOption(aula , 'Aule')">
                         {{ aula }}
                     </div>
                 </div>
