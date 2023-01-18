@@ -259,6 +259,9 @@
                     console.log(searchElement);
                     console.log(searchType);
                     console.log(this.searchQuery);
+                    this.selectedType = searchType
+                    this.selectedClass = searchElement
+                    this.indietro()
                 },
                 updateType(scheduleType){
                     this.selectedType = scheduleType
