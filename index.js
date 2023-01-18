@@ -1,6 +1,7 @@
-import puppeteer, { ConsoleMessage } from "puppeteer"
+console.time('scraper')
+
+import puppeteer from "puppeteer"
 import fs from 'fs'
-import { sign } from "crypto";
 
 var dir = './data';
 
@@ -219,7 +220,6 @@ if (!fs.existsSync(dir)){
 		Object.assign(classEmojiObj, {[allClasses[i]]: classEmoji[i]});
 	}
 
-	console.log(classEmojiObj);
 
 	// Esporto in JSON un array suddiviso per indice, es [0] = tutte le classi prime e cosi via
 	fs.writeFile("./data/classesMatrix.json", JSON.stringify(classesMatrix, null, null), (err, result) => {
@@ -232,7 +232,9 @@ if (!fs.existsSync(dir)){
 		if(err) console.log('error', err);
 	});
 
+	console.timeEnd('scraper')
 	
+
 	await browser.close();
 })();
 

@@ -85,7 +85,7 @@
             </div>
 
 
-            <div class="classroom" v-if="selectedType == 'Aule'">
+            <div class="classroom" v-if="selectedType == 'Aule' ">
                 <h1>Aule</h1>
                 <p>Scegli l'aula: </p>
                 <div class="grid-button">
@@ -122,7 +122,6 @@
                 </div> 
                 
                 <div class="hour">
-                    
                 </div>
 
             </section>
@@ -133,16 +132,15 @@
                 <input type="text" placeholder="&#xF002; Cerca qualsiasi cosa: " v-model="searchQuery">
                 <div class="grid-button">
                     
-                    <!-- <div v-for="classe in classi" @click="updateSearchOption(classe , 'Classi')">
-                        {{ /CIA/gmi.test(classe) }}
-                    </div> -->
+                    <div v-show="regexExpression.test(docente)" v-for="classe in classi" @click="updateSearchOption(classe , 'Classi')">
+                        {{ classe }}
+                    </div>
 
-                    <div v-for="docente in Docenti" @click="updateSearchOption(docente , 'Docenti')">
-                        {{ regexExpression }}
-                        {{ searchQuery }}
+                    <div v-show="regexExpression.test(docente)" v-for="docente in Docenti" @click="updateSearchOption(docente , 'Docenti')">
+                        {{ docente }}
                     </div>
                     
-                    <div v-for="aula in aule" @click="updateSearchOption(aula , 'Aule')">
+                    <div v-show="regexExpression.test(docente)" v-for="aula in aule" @click="updateSearchOption(aula , 'Aule')">
                         {{ aula }}
                     </div>
                 </div>
@@ -228,8 +226,7 @@
                         ['fa-solid fa-graduation-cap','fa-solid fa-chalkboard-user', 'fa-solid fa-users-rectangle']
                     ],
                     
-                    regexExpression: `/CIA/gi`,
-
+                    
                     lastCheckedMenu: 0,
                     selectedYear: 0,
                     selectedFloor: '',
@@ -238,7 +235,7 @@
                     selectedMenu: 0,
                     selectedType: 'Classi',
                     selectedClass: '4CIA',
-                    searchQuery: "a",
+                    searchQuery: "",   
                     windowWidth: window.innerWidth,
                 }
             },
@@ -353,6 +350,12 @@
                     changeMode(selectedMenu)
                 }
             },
+            computed: {
+                regexExpression() {
+                    return new RegExp(this.searchQuery, "gi");
+                }
+            },
+
         })
 
         const mountedApp = app.mount('#app')

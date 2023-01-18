@@ -165,7 +165,7 @@ body{
     height: calc(100% - 69px);
     padding: 0 0 69px 0;
 }
-.grid-button div{
+.grid-button > div{
     background-color: #17181b;
     color: white;
     padding: 24px 32px;
@@ -175,13 +175,13 @@ body{
     justify-content: center;
     border-bottom: 1px solid #3B3B3F
 }
-.grid-button div:last-child{
+.grid-button > div:last-child{
     border-radius: 0 0 10px 10px;
 }
-.grid-button div:hover{
+.grid-button > div:hover{
     cursor: pointer;
 }
-.grid-button div:active{
+.grid-button > div:active{
     background-color: #3a3a3c;
 }
 
