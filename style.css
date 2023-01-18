@@ -63,7 +63,7 @@ body{
     padding: 10px 0;
 }
 .split > *:not(.schedule){
-    padding: 48px 16px 61px 16px;
+    padding: 48px 16px 69px 16px;
 }
 
 
@@ -107,8 +107,8 @@ body{
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    max-height: calc(100% - 61px);
-    padding: 0 0 61px 0;
+    max-height: calc(100% - 69px);
+    padding: 0 0 69px 0;
     overflow-y: scroll;
 }
 .selezione div:hover{
@@ -162,8 +162,8 @@ body{
     flex-direction: column;
     border-radius: 10px;
     overflow-y: scroll;
-    height: calc(100% - 61px);
-    padding: 0 0 61px 0;
+    height: calc(100% - 69px);
+    padding: 0 0 69px 0;
 }
 .grid-button div{
     background-color: #17181b;
@@ -232,7 +232,6 @@ body{
     position: absolute;
     top: 16px;
     right: 16px;
-    
 }
 
 .item p{
@@ -296,7 +295,7 @@ body{
     width: 100%;
     justify-content: space-evenly;
     align-items: center;
-    padding: 8px 0;
+    padding: 8px 0 16px 0;
     position: absolute;
     bottom:0;
     left:0;
@@ -331,6 +330,8 @@ body{
 @media only screen and (min-width: 800px) {
     .grid{
         height: calc(100% - 164px);
+        width: 50vw;
+        margin: 0;
     }
     .item p{
         font-size: 12px;

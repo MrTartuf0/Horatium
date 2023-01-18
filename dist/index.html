@@ -13,8 +13,8 @@
     <link rel="shortcut icon" href="./assets/favicon-9493e043.ico" type="image/x-icon">
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-  <script type="module" crossorigin src="./assets/index-e851d5d5.js"></script>
-  <link rel="stylesheet" href="./assets/index-a1f0411b.css">
+  <script type="module" crossorigin src="./assets/index-f381651a.js"></script>
+  <link rel="stylesheet" href="./assets/index-8404eba0.css">
 </head>
 <body>
     
@@ -25,7 +25,7 @@
                 <h1>Benvenuto! 🎉</h1>
                 <p>Questa app è stata sviluppata dallo studente <span style="color: #4B8DF7;">Vitaliy Didyk</span></p>
                 <p style="padding: 0 0 42px 0; font-size: 20px;">Se ti interessa visualizzare il codice sorgente, clicca il seguente <a href="https://github.com/MrTartuf0/Horatium" style="color: royalblue">link</a></p>
-                <p>Clicca 2 volte per scegliere il tipo di orario: </p>
+                <p>Scegli la tipologia di orario: </p>
                 <div class="flex-type">
                     <button v-for="(scheduleType , index) in scheduleTypes[0]" v-bind="$attrs" @click.stop="updateType(scheduleType) , avanti()"> 
                         <i :class="scheduleTypes[1][index]"></i>
@@ -121,19 +121,31 @@
                             {{ materie.date }}
                         </p>
                     </div>
+                </div> 
+                
+                <div class="hour">
+                    
                 </div>
+
             </section>
 
             <div class="search">
                 <h1>Ricerca</h1>
                 <p>Cerca qualsiasi cosa: </p>
-                <input type="text" placeholder="&#xF002; Cerca qualsiasi cosa: ">
+                <input type="text" placeholder="&#xF002; Cerca qualsiasi cosa: " v-model="searchQuery">
                 <div class="grid-button">
-                    <div v-for="c in Classi" @click="indietro() , updateSection(c)">
-                        {{ c }}
+                    
+                    <!-- <div v-for="classe in classi" @click="updateSearchOption(classe , 'Classi')">
+                        {{ /CIA/gmi.test(classe) }}
+                    </div> -->
+
+                    <div v-for="docente in Docenti" @click="updateSearchOption(docente , 'Docenti')">
+                        {{ regexExpression }}
+                        {{ searchQuery }}
                     </div>
-                    <div v-for="d in Docenti" @click="indietro() , updateSection(d)">
-                        {{ d }}
+                    
+                    <div v-for="aula in aule" @click="updateSearchOption(aula , 'Aule')">
+                        {{ aula }}
                     </div>
                 </div>
             </div>

@@ -23,7 +23,7 @@
                 <h1>Benvenuto! 🎉</h1>
                 <p>Questa app è stata sviluppata dallo studente <span style="color: #4B8DF7;">Vitaliy Didyk</span></p>
                 <p style="padding: 0 0 42px 0; font-size: 20px;">Se ti interessa visualizzare il codice sorgente, clicca il seguente <a href="https://github.com/MrTartuf0/Horatium" style="color: royalblue">link</a></p>
-                <p>Clicca 2 volte per scegliere il tipo di orario: </p>
+                <p>Scegli la tipologia di orario: </p>
                 <div class="flex-type">
                     <button v-for="(scheduleType , index) in scheduleTypes[0]" v-bind="$attrs" @click.stop="updateType(scheduleType) , avanti()"> 
                         <i :class="scheduleTypes[1][index]"></i>
@@ -119,19 +119,31 @@
                             {{ materie.date }}
                         </p>
                     </div>
+                </div> 
+                
+                <div class="hour">
+                    
                 </div>
+
             </section>
 
             <div class="search">
                 <h1>Ricerca</h1>
                 <p>Cerca qualsiasi cosa: </p>
-                <input type="text" placeholder="&#xF002; Cerca qualsiasi cosa: ">
+                <input type="text" placeholder="&#xF002; Cerca qualsiasi cosa: " v-model="searchQuery">
                 <div class="grid-button">
-                    <div v-for="c in Classi" @click="indietro() , updateSection(c)">
-                        {{ c }}
+                    
+                    <!-- <div v-for="classe in classi" @click="updateSearchOption(classe , 'Classi')">
+                        {{ /CIA/gmi.test(classe) }}
+                    </div> -->
+
+                    <div v-for="docente in Docenti" @click="updateSearchOption(docente , 'Docenti')">
+                        {{ regexExpression }}
+                        {{ searchQuery }}
                     </div>
-                    <div v-for="d in Docenti" @click="indietro() , updateSection(d)">
-                        {{ d }}
+                    
+                    <div v-for="aula in aule" @click="updateSearchOption(aula , 'Aule')">
+                        {{ aula }}
                     </div>
                 </div>
             </div>
@@ -204,7 +216,6 @@
                         ['fa-solid fa-house' , 'fa-regular fa-clock' , 'fa-solid fa-magnifying-glass' , 'fa-solid fa-gear'],
                         [true , false , false , false]
                     ],
-
                     anni: [
                         [1,2,3,4,5],
                         ['Primo' , 'Secondo' , 'Terzo' , 'Quarto' , 'Quinto'],
@@ -212,23 +223,29 @@
                     ],
                     piani: ['Piano Terra' , 'Primo Piano' , 'Secondo Piano'],
 
-                    lastCheckedMenu: 0,
-                    selectedYear: 0,
-                    selectedFloor: '',
-                    selectedIndex: -1,
                     scheduleTypes: [
                         ['Classi', 'Docenti', 'Aule'],
                         ['fa-solid fa-graduation-cap','fa-solid fa-chalkboard-user', 'fa-solid fa-users-rectangle']
                     ],
+                    
+                    regexExpression: `/CIA/gi`,
+
+                    lastCheckedMenu: 0,
+                    selectedYear: 0,
+                    selectedFloor: '',
+                    selectedIndex: -1,
                     isSelected: false,
+                    selectedMenu: 0,
                     selectedType: 'Classi',
                     selectedClass: '4CIA',
+                    searchQuery: "a",
                     windowWidth: window.innerWidth,
                 }
             },
             methods: {
                 updateFloor(piano){
                     console.log(piano)
+                    this.selectedFloor = piano
                     this.avanti()
                 },
                 updateYear(year) {
@@ -240,6 +257,11 @@
                     this.selectedClass = classe
                     console.log(this.selectedClass)
                     this.avanti()
+                },
+                updateSearchOption(searchElement , searchType){
+                    console.log(searchElement);
+                    console.log(searchType);
+                    console.log(this.searchQuery);
                 },
                 updateType(scheduleType){
                     this.selectedType = scheduleType
@@ -277,6 +299,9 @@
                 changeMode(index){
                     console.clear()
                     
+                    this.selectedMenu = index 
+                    console.log(this.selectedMenu);
+
                     let nPages = document.querySelector('.split').childElementCount
                     let selectedMode = (index == 0) ? index : nPages - (this.menuBar[0].length - index)
 
@@ -306,9 +331,13 @@
             },
             mounted() {
                 if (localStorage.selectedClass) {
-                    this.selectedClass = localStorage.selectedClass;
+                    this.selectedClass = localStorage.selectedClass
+                }
+                if (localStorage.selectedType) {
                     this.selectedType = localStorage.selectedType
-                    window.scrollTo(0, 0)
+                }
+                if (localStorage.selectedMenu) {
+                    this.selectedMenu = localStorage.selectedMenu
                 }
             },
             watch: {
@@ -318,6 +347,10 @@
                 selectedType(newSelectedType) {
                     localStorage.selectedType = newSelectedType;
                 },
+                selectedMode(newSelectedMenu) {
+                    localStorage.selectedMenu = newSelectedMenu;
+                    changeMode(selectedMenu)
+                }
             },
         })
 

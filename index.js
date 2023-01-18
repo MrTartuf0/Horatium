@@ -37,11 +37,6 @@ if (!fs.existsSync(dir)){
 	[allClasses , allTeachers , allClassRooms, ]]
 
 	let everyClassNameRoom = []
-	fileNames[1].forEach(e => {
-		e.forEach(e => {
-			everyClassNameRoom.push(e)
-		})
-	})
 
 	fs.writeFile(`./data/everyClassNameRoom.json`, JSON.stringify(everyClassNameRoom, null, null), (err, result) => {
 		if(err) console.log('error', err);
@@ -158,7 +153,7 @@ if (!fs.existsSync(dir)){
 				singleEmoji = '💻'
 				break;
 			case 'TL':
-				singleEmoji = '📡'
+				singleEmoji = '🛵'
 				break;
 			case 'MM':
 				singleEmoji = '⚙️'
