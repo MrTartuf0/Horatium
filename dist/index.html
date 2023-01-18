@@ -134,7 +134,7 @@
                 <input type="text" placeholder="&#xF002; Cerca qualsiasi cosa: " v-model="searchQuery">
                 <div class="grid-button">
                     
-                    <div v-show="regexExpression.test(docente)" v-for="classe in classi" @click="updateSearchOption(classe , 'Classi')">
+                    <div v-show="regexExpression.test(classe)" v-for="classe in classi" @click="updateSearchOption(classe , 'Classi')">
                         {{ classe }}
                     </div>
 
@@ -142,7 +142,7 @@
                         {{ docente }}
                     </div>
                     
-                    <div v-show="regexExpression.test(docente)" v-for="aula in aule" @click="updateSearchOption(aula , 'Aule')">
+                    <div v-show="regexExpression.test(aula)" v-for="aula in aule" @click="updateSearchOption(aula , 'Aule')">
                         {{ aula }}
                     </div>
                 </div>
