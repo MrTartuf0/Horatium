@@ -13,8 +13,8 @@
     <link rel="shortcut icon" href="./assets/favicon-9493e043.ico" type="image/x-icon">
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-  <script type="module" crossorigin src="./assets/index-3d6b8cca.js"></script>
-  <link rel="stylesheet" href="./assets/index-d48c1199.css">
+  <script type="module" crossorigin src="./assets/index-593dc98f.js"></script>
+  <link rel="stylesheet" href="./assets/index-baf7664c.css">
 </head>
 <body>
     
@@ -102,28 +102,48 @@
 
                 <h1>{{ selectedClass }} {{ emoji[selectedClass] }} </h1>
                 
-                <div class="grid">
-                    <div class="item" 
-                    :class=" 'h' + materie.height , {itemZoom: index == selectedIndex && isSelected} " 
-                    :style="{backgroundColor: materie.backgroundColor}"  
-                    v-for="(materie , index) in orario[selectedType][selectedClass]" 
-                    @click="zoomSubject(materie , index)" 
-                    >
-                        
-                        <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'e0'}" >
-                            <p>{{ materie.classNumber }}</p>
-                            <p v-show="isSelected">{{ materie.teacher }}</p>
-                            <p v-show="isSelected">{{ materie.classRoom }}</p>
-                            <p>{{ materie.subject }}</p>
-                            <i v-show="isSelected" class="fa-solid fa-xmark"></i>
+                <div class="orientation">
+                    
+                    <div class="grid">
+                        <div class="item" 
+                        :class=" 'h' + materie.height , {itemZoom: index == selectedIndex && isSelected} " 
+                        :style="{backgroundColor: materie.backgroundColor}"  
+                        v-for="(materie , index) in orario[selectedType][selectedClass]" 
+                        @click="zoomSubject(materie , index)" 
+                        >
+                            
+                            <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'e0'}" >
+                                <p>{{ materie.classNumber }}</p>
+                                <p v-show="isSelected">{{ materie.teacher }}</p>
+                                <p v-show="isSelected">{{ materie.classRoom }}</p>
+                                <p>{{ materie.subject }}</p>
+                                <i v-show="isSelected" class="fa-solid fa-xmark"></i>
+                            </div>
+                            <p class="dates">
+                                {{ materie.date }}
+                            </p>
                         </div>
-                        <p class="dates">
-                            {{ materie.date }}
-                        </p>
+                    </div> 
+                    
+                    <div class="hour">
+                        <div class="current hour-item">
+                            <i class="fa-regular fa-circle-dot"></i>
+                            <p>{{ getOrarioJSON(0) }}</p>
+                            <div>
+                                <p>Classe attuale: </p>
+                                <p>{{ currentSubject }}</p>
+                            </div>
+                        </div>
+                        <div class="next hour-item">
+                            <i class="fa-solid fa-forward"></i>
+                            <p>{{ getOrarioJSON(1) }}</p>
+                            <div>
+                                <p>Classe seguente: </p>
+                                <p>{{ nextSubject }}</p>
+                            </div>
+                        </div>
                     </div>
-                </div> 
-                
-                <div class="hour">
+
                 </div>
 
             </section>
