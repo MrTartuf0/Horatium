@@ -231,7 +231,7 @@
                     orario,
                     
                     menuBar: [
-                        ['Home' , 'Orario' , 'Ricerca' , 'Impostazioni'],
+                        ['Home' , 'Orario' , 'Ricerca' , 'Impost.'],
                         ['fa-solid fa-house' , 'fa-regular fa-clock' , 'fa-solid fa-magnifying-glass' , 'fa-solid fa-gear'],
                         [true , false , false , false]
                     ],
@@ -356,7 +356,7 @@
                 },
 
                 getOrarioJSON(typeHour) {
-                    let baseURL = 'http://ubuntu.rickyscloud.com:8080/getClassByHour'
+                    let baseURL = 'https://api.rickyscloud.com/getClassByHour'
                     let currentDay = this.giorni[new Date().getDay()] 
                     console.log(currentDay);
                     let currentHour = (typeHour == 0) ? new Date().getHours() : new Date().getHours()+1 

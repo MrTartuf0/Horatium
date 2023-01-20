@@ -364,7 +364,7 @@ body{
 @media only screen and (min-width: 800px) {
     .grid{
         height: calc(100% - 164px);
-        width: 50vw;
+        width: 80vw;
         margin: 0;
     }
     .item p{
@@ -378,5 +378,9 @@ body{
     }
     .subjects p:first-child{
         font-size: calc(22px * 1.5);
+    }
+
+    .orientation{
+        
     }
 } 
