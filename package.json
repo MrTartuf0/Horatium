@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "fs": "^0.0.1-security",
-    "jquery": "^3.6.3",
     "puppeteer": "^19.5.2"
   }
 }
