@@ -356,7 +356,7 @@
 
                 getOrarioJSON(typeHour) {
                     let baseURL = 'https://api.rickyscloud.com/getClassByHour'
-                    let currentDay = this.giorni[new Date().getDay()] 
+                    let currentDay = this.giorni[new Date().getDay()-1] 
                     console.log(currentDay);
                     let currentHour = (typeHour == 0) ? new Date().getHours() : new Date().getHours()+1 
 
