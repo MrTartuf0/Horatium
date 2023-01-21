@@ -62,7 +62,7 @@ body{
     font-weight: 500;
     padding: 10px 0;
 }
-.split > *:not(.schedule){
+.split > *:not(.schedule , .settings){
     padding: 48px 16px 69px 16px;
 }
 
@@ -318,16 +318,55 @@ body{
  }
 
 /* SETTINGS */
-.aggiorna{
+.settings h1{
+    padding: 48px 16px 10px 18px;
+}
+.impostazioni{
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100% - 69px);
+    padding: 0 0 69px 0;
+    overflow-y: scroll;
+}
+.impostazioni div:hover{
+    cursor: pointer;
+}
+.impostazioni div:active{
+    background-color: #3a3a3c;
+}
+.impostazioni div{
+    display: flex;
+    font-weight: 500;
+    font-size: 16px;
+    align-items: center;
+    height: 100%;
+    background-color: #17181b;
+}
+.impostazioni div i{
+    color: #56575C;
+    padding: 0 16px 0 0;
+}
+.impostazioni > div > p {
+    margin: 12px 12px 12px 16px;
+    border-radius: 6px;
+    display: flex;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+}
+.impostazioni > div > div{
+    height: 56px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 32px;
-    padding: 12px 16px;
-    margin: 12px 16px;
-    border-radius: 10px;
-    background-color: royalblue;
+    justify-content: space-between;
+    width: calc(100% - 64px);
 }
+.impostazioni > div > div:not(.impostazioni > div:last-child > div){
+    border-bottom: 1px solid #3B3B3F
+}
+
+
 
 /* MENU BAR ON THE BOTTOM */
 .menuBar{
@@ -369,9 +408,9 @@ body{
 /* DESKTOP PORT VIEW */
 @media only screen and (min-width: 800px) {
     .grid{
-        height: calc(100% - 164px);
         width: 80vw;
         margin: 0;
+        height: calc(100vh - 176px);
     }
     .item p{
         font-size: 12px;
@@ -385,8 +424,20 @@ body{
     .subjects p:first-child{
         font-size: calc(22px * 1.5);
     }
-
     .orientation{
-
+        flex-direction: row;
+        display: flex;
+    }
+    .hour{
+        flex-direction: column;
+        width: 20vw;
+    }
+    .hour-item{
+        flex-direction: column;
+        align-items: center;
+    }
+    .hour-item p:nth-child(2){
+        font-size: 24px;
+        font-weight: 500;
     }
 } 
