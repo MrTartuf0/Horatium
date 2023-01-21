@@ -117,7 +117,7 @@
                                 <p>{{ materie.subject }}</p>
                                 <i v-show="isSelected" class="fa-solid fa-xmark"></i>
                             </div>
-                            <p class="dates">
+                            <p v-else class="dates">
                                 {{ materie.date }}
                             </p>
                         </div>
@@ -365,13 +365,16 @@
                     fetch(url)
                     .then(res => res.json())
                     .then((out) => {
-                        let paragraphs = out.materia.split(' ')
+                        console.log("materiea" + out.materia);
+                        // let paragraphs = out.materia.match(/(?=\S*['-])([0-9-a-zA-Z'-]+)/gi)
+                        let paragraphs = out.aula
+                        console.log("paragrafo regedx : " + paragraphs);
                         if(typeHour == 0){
-                            this.currentSubject = paragraphs[paragraphs.length-3] + paragraphs[paragraphs.length-2]
+                            this.currentSubject = paragraphs
                             console.log(paragraphs);
                         }
                         else{
-                            this.nextSubject = paragraphs[paragraphs.length-3] + paragraphs[paragraphs.length-2]
+                            this.nextSubject = paragraphs
                             console.log(paragraphs);
                         }
                     })

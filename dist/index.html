@@ -13,8 +13,8 @@
     <link rel="shortcut icon" href="./assets/favicon-9493e043.ico" type="image/x-icon">
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-  <script type="module" crossorigin src="./assets/index-4735583f.js"></script>
-  <link rel="stylesheet" href="./assets/index-34818dd9.css">
+  <script type="module" crossorigin src="./assets/index-1ef3db5f.js"></script>
+  <link rel="stylesheet" href="./assets/index-615df9bc.css">
 </head>
 <body>
     
@@ -119,7 +119,7 @@
                                 <p>{{ materie.subject }}</p>
                                 <i v-show="isSelected" class="fa-solid fa-xmark"></i>
                             </div>
-                            <p class="dates">
+                            <p v-else class="dates">
                                 {{ materie.date }}
                             </p>
                         </div>

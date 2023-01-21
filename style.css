@@ -227,13 +227,11 @@ body{
     font-size: 22px;
     font-weight: 700;
 }
-
 .item i{
     position: absolute;
     top: 16px;
     right: 16px;
 }
-
 .item p{
     text-align: center;
 }
@@ -247,6 +245,14 @@ body{
 .h3{
     grid-row: span 3;
 }
+.dates{
+    width: 100%;    
+    height: 100%;    
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
 
 /* CURRENT/NEXT HOUR */
 .hour{
@@ -381,6 +387,6 @@ body{
     }
 
     .orientation{
-        
+
     }
 } 
