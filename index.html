@@ -17,7 +17,7 @@
 <body>
     
     <div id="app" v-cloak>
-        <div class="split">
+        <div class="split"  v-on:scroll="scrollTarget()">
 
             <div class="type">
                 <h1>Benvenuto! 🎉</h1>
@@ -339,9 +339,6 @@
                 changeMode(index){
                     console.clear()
                     
-                    this.selectedMenu = index 
-                    console.log(this.selectedMenu);
-
                     let nPages = document.querySelector('.split').childElementCount
                     let selectedMode = (index == 0) ? index : nPages - (this.menuBar[0].length - index)
 
@@ -395,11 +392,16 @@
                     })
                     .catch(err => { throw err });
 
-                }
+                },
 
+                scrollTarget(){
+                    this.selectedMenu = document.querySelector('.split').scrollLeft
+                    console.log(this.selectedMenu);
+                },
 
             },
             mounted() {
+        
                 if (localStorage.selectedClass) {
                     this.selectedClass = localStorage.selectedClass
                 }
@@ -408,7 +410,7 @@
                 }
                 if (localStorage.selectedMenu) {
                     this.selectedMenu = localStorage.selectedMenu
-                    //window.scrollTo(0, 0)
+                    document.querySelector('.split').scrollLeft = localStorage.selectedMenu 
                 }
             },
             watch: {
@@ -418,16 +420,14 @@
                 selectedType(newSelectedType) {
                     localStorage.selectedType = newSelectedType;
                 },
-                selectedMode(newSelectedMenu) {
+                selectedMenu(newSelectedMenu) {
                     localStorage.selectedMenu = newSelectedMenu;
-                    changeMode(selectedMenu)
-                }
+                },
             },
             computed: {
                 regexExpression() {
                     return new RegExp(this.searchQuery, "gmi");
                 },
-
             },
 
         })
