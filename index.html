@@ -169,15 +169,6 @@
             <div class="settings">
                 <h1>Impostazioni:</h1>
 
-                <label>Font: </label>
-                <select>
-                    <option>Jetbrains Mono</option>
-                    <option>Poppins</option>
-                    <option>Inter</option>
-                    <option>Jost</option>
-                </select>
-
-
                 <div class="impostazioni">
                     <div @click="updatePage()">
                         <p><i class="fa-solid fa-arrows-rotate"></i></p>
@@ -196,13 +187,25 @@
                     <div>
                         <p><i class="fa-solid fa-font"></i></p>
                         <div>
-                            <p>Font: </p>
+                            <p>Font:</p> 
+                            <select>
+                                <option>Jetbrains Mono</option>
+                                <option>Poppins</option>
+                                <option>Inter</option>
+                                <option>Jost</option>
+                            </select>
                         </div>
                     </div>
 
+                    <div>
+                        <p><i class="fa-brands fa-github"></i></p>
+                        <div>
+                            <p>Codice sorgente : </p>
+                        </div>
+                    </div>
+
+
                 </div>
-
-
             </div>
         </div>
 
