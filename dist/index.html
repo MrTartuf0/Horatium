@@ -6,7 +6,6 @@
     <meta name="theme-color" content="#000000"/>
     <meta name="HandheldFriendly" content="true" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="icon" href="./img/icons/favicon.ico">
     <title>Horatium</title>
     
     <!-- Webapp icon and additional information -->
@@ -14,8 +13,8 @@
     <link rel="shortcut icon" href="./assets/favicon-9493e043.ico" type="image/x-icon">
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-  <script type="module" crossorigin src="./assets/index-5b4dcb73.js"></script>
-  <link rel="stylesheet" href="./assets/index-4eb20e4c.css">
+  <script type="module" crossorigin src="./assets/index-8c8c7ea2.js"></script>
+  <link rel="stylesheet" href="./assets/index-94b4d480.css">
 </head>
 <body>
     
@@ -172,15 +171,6 @@
             <div class="settings">
                 <h1>Impostazioni:</h1>
 
-                <label>Font: </label>
-                <select>
-                    <option>Jetbrains Mono</option>
-                    <option>Poppins</option>
-                    <option>Inter</option>
-                    <option>Jost</option>
-                </select>
-
-
                 <div class="impostazioni">
                     <div @click="updatePage()">
                         <p><i class="fa-solid fa-arrows-rotate"></i></p>
@@ -199,13 +189,25 @@
                     <div>
                         <p><i class="fa-solid fa-font"></i></p>
                         <div>
-                            <p>Font: </p>
+                            <p>Font:</p> 
+                            <select>
+                                <option>Jetbrains Mono</option>
+                                <option>Poppins</option>
+                                <option>Inter</option>
+                                <option>Jost</option>
+                            </select>
                         </div>
                     </div>
 
+                    <div>
+                        <p><i class="fa-brands fa-github"></i></p>
+                        <div>
+                            <p>Codice sorgente : </p>
+                        </div>
+                    </div>
+
+
                 </div>
-
-
             </div>
         </div>
 
