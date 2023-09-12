@@ -1,23 +1,25 @@
 console.time('scraper')
 
 import puppeteer from "puppeteer"
-import fs from 'fs'
+// import fs from 'fs'
 
 var dir = './data';
 
-if (!fs.existsSync(dir)){
-    fs.mkdirSync(dir);
-}
+// if (!fs.existsSync(dir)){
+//     fs.mkdirSync(dir);
+// }
 
 (async () => {
 	const browser = await puppeteer.launch({headless: 'new'});
 	const page = await browser.newPage();
 	
+	const baseURL = 'https://ittterni.altervista.org//orario_itt_2023-2024_riservato/'
+
 	// PUBLIC SCHEDULE
 	// await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_pubblico/`);
 
 	// PRIVATE SCHEDULE
-	await page.goto(`https://ittterni.altervista.org//orario_itt_2023-2024_riservato/index.html`);
+	await page.goto(`${baseURL}index.html`);
 
 	const allClasses = await page.evaluate(() => {
 		classes = Array.from(document.querySelectorAll('td')[0].querySelectorAll('p a'))
@@ -34,14 +36,15 @@ if (!fs.existsSync(dir)){
 		return classrooms.map(e => e.textContent)
 	});
 
-	let fileNames = [['Classi' , 'Docenti' , 'Aule', ],
-	[allClasses , allTeachers , allClassRooms, ]]
+	let fileNames = [['Classi' , 'Docenti' , 'Aule', ],[allClasses , allTeachers , allClassRooms, ]]
 
 	let everyClassNameRoom = []
 
-	fs.writeFile(`./data/everyClassNameRoom.json`, JSON.stringify(everyClassNameRoom, null, null), (err, result) => {
-		if(err) console.log('error', err);
-	});		
+	// fs.writeFile(`./data/everyClassNameRoom.json`, JSON.stringify(everyClassNameRoom, null, null), (err, result) => {
+	// 	if(err) console.log('error', err);
+	// });		
+
+	Bun.write(`./data/everyClassNameRoom.json`, JSON.stringify(everyClassNameRoom, null, null));		
 
 
 
@@ -54,7 +57,7 @@ if (!fs.existsSync(dir)){
 		let allSchedules = {}
 		
 		for(let i=0 ; i<fileNames[1][k].length ; i++){
-			await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_riservato/${fileNames[0][k]}/${fileNames[1][k][i]}.html`);
+			await page.goto(`${baseURL}${fileNames[0][k]}/${fileNames[1][k][i]}.html`);
 		
 			const data = await page.evaluate(() => {
 				// Prendi tutti gli elementi con il tag td
@@ -127,19 +130,24 @@ if (!fs.existsSync(dir)){
 		
 
 		// Questo solo per le liste di nomi, classi, e aule
-		fs.writeFile(`./data/${fileNames[0][k]}.json`, JSON.stringify(fileNames[1][k], null, null), (err, result) => {
-			if(err) console.log('error', err);
-		});		
+		// fs.writeFile(`./data/${fileNames[0][k]}.json`, JSON.stringify(fileNames[1][k], null, null), (err, result) => {
+		// 	if(err) console.log('error', err);
+		// });		
+		// fs.writeFile(`./data/${fileNames[0][k]}.json`, JSON.stringify(fileNames[1][k], null, null), (err, result) => {
+		Bun.write(`./data/${fileNames[0][k]}.json`, JSON.stringify(fileNames[1][k], null, null))
+
 	}
 	
 
 	// Tutti gli orari in un unico file
 	// il secondo null è per togliere l'identazione dal json
 	// salvando 1.2mb di spazio 
-	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, null), (err, result) => {
-		if (err) throw err;
-	});
+	// fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, null), (err, result) => {
+	// 	if (err) throw err;
+	// });
+	Bun.write(`./data/schedule.json`, JSON.stringify(keySchedule, null, null))
 	
+
 	// Aggiunta di emoji per tipologia di classe
 	let classEmoji = []
 	let claSection
@@ -147,30 +155,23 @@ if (!fs.existsSync(dir)){
 		claSection = allClasses[j].slice(-2)
 		let singleEmoji		
 		switch(claSection) {
-			case 'IT' || 'IA':
-				singleEmoji = '💻'
-				break;
+			case 'IT':
 			case 'IA':
 				singleEmoji = '💻'
 				break;
 			case 'TL':
+			case 'LG':
 				singleEmoji = '🛵'
 				break;
 			case 'MM':
-				singleEmoji = '⚙️'
-				break;
 			case 'AM':
 				singleEmoji = '⚙️'
 				break;
 			case 'CAT':
-				singleEmoji = '✏️'
-				break;
 			case 'CA':
 				singleEmoji = '✏️'
 				break;
 			case 'CM':
-				singleEmoji = '🧪'
-				break;
 			case 'AC':
 				singleEmoji = '🧪'
 				break;
@@ -185,9 +186,6 @@ if (!fs.existsSync(dir)){
 				break;
 			case 'EC':
 				singleEmoji = '🔋'
-				break;
-			case 'LG':
-				singleEmoji = '🛵'
 				break;
 			case 'AT':
 				singleEmoji = '🦾'
@@ -222,15 +220,21 @@ if (!fs.existsSync(dir)){
 
 
 	// Esporto in JSON un array suddiviso per indice, es [0] = tutte le classi prime e cosi via
-	fs.writeFile("./data/classesMatrix.json", JSON.stringify(classesMatrix, null, null), (err, result) => {
-		if(err) console.log('error', err);
-	});
-	fs.writeFile("./data/classEmoji.json", JSON.stringify(classEmojiObj, null, null), (err, result) => {
-		if(err) console.log('error', err);
-	});
-	fs.writeFile("./data/classEmojiMatrix.json", JSON.stringify(classEmojiMatrix, null, null), (err, result) => {
-		if(err) console.log('error', err);
-	});
+	// fs.writeFile("./data/classesMatrix.json", JSON.stringify(classesMatrix, null, null), (err, result) => {
+	// 	if(err) console.log('error', err);
+	// });
+	// fs.writeFile("./data/classEmoji.json", JSON.stringify(classEmojiObj, null, null), (err, result) => {
+	// 	if(err) console.log('error', err);
+	// });
+	// fs.writeFile("./data/classEmojiMatrix.json", JSON.stringify(classEmojiMatrix, null, null), (err, result) => {
+	// 	if(err) console.log('error', err);
+	// });
+
+	Bun.write("./data/classesMatrix.json", JSON.stringify(classesMatrix, null, null))
+	Bun.write("./data/classEmoji.json", JSON.stringify(classEmojiObj, null, null))
+	Bun.write("./data/classEmojiMatrix.json", JSON.stringify(classEmojiMatrix, null, null))
+
+
 
 	console.timeEnd('scraper')
 	

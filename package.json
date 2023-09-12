@@ -12,6 +12,7 @@
     "vite": "^4.0.0"
   },
   "dependencies": {
+    "bun": "^1.0.0",
     "fs": "^0.0.1-security",
     "puppeteer": "^19.11.1"
   }
