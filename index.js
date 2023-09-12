@@ -17,8 +17,8 @@ if (!fs.existsSync(dir)){
 	// await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_pubblico/`);
 
 	// PRIVATE SCHEDULE
-	const baseURL = 'https://ittterni.altervista.org//orario_itt_2023-2024_riservato/'
-	await page.goto(`${baseURL}index.html`);
+	const baseURL = 'https://ittterni.altervista.org/orario_itt_2023-2024_riservato/'
+	await page.goto(`${baseURL}`);
 
 	const allClasses = await page.evaluate(() => {
 		classes = Array.from(document.querySelectorAll('td')[0].querySelectorAll('p a'))
@@ -55,7 +55,7 @@ if (!fs.existsSync(dir)){
 		let allSchedules = {}
 		
 		for(let i=0 ; i<fileNames[1][k].length ; i++){
-			await page.goto(`${baseURL}${fileNames[0][k]}/${fileNames[1][k][i]}.html`);
+			await page.goto(`${baseURL}${fileNames[0][k]}/${fileNames[1][k][i]}`);
 		
 			const data = await page.evaluate(() => {
 				// Prendi tutti gli elementi con il tag td
