@@ -17,7 +17,8 @@ if (!fs.existsSync(dir)){
 	// await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_pubblico/`);
 
 	// PRIVATE SCHEDULE
-	await page.goto(`https://ittterni.altervista.org//orario_itt_2023-2024_riservato/index.html`);
+	const baseURL = 'https://ittterni.altervista.org//orario_itt_2023-2024_riservato/'
+	await page.goto(`${baseURL}index.html`);
 
 	const allClasses = await page.evaluate(() => {
 		classes = Array.from(document.querySelectorAll('td')[0].querySelectorAll('p a'))
@@ -54,7 +55,7 @@ if (!fs.existsSync(dir)){
 		let allSchedules = {}
 		
 		for(let i=0 ; i<fileNames[1][k].length ; i++){
-			await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_riservato/${fileNames[0][k]}/${fileNames[1][k][i]}.html`);
+			await page.goto(`${baseURL}${fileNames[0][k]}/${fileNames[1][k][i]}.html`);
 		
 			const data = await page.evaluate(() => {
 				// Prendi tutti gli elementi con il tag td
@@ -136,7 +137,7 @@ if (!fs.existsSync(dir)){
 	// Tutti gli orari in un unico file
 	// il secondo null è per togliere l'identazione dal json
 	// salvando 1.2mb di spazio 
-	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, null), (err, result) => {
+	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, 4), (err, result) => {
 		if (err) throw err;
 	});
 	

@@ -1,442 +1,484 @@
 <!DOCTYPE html>
 <html lang="IT">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="theme-color" content="#000000"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="#000000" />
     <meta name="HandheldFriendly" content="true" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Horatium</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css" />
     <!-- Webapp icon and additional information -->
-    <link rel="manifest" href="./manifest.json">
-    <link rel="shortcut icon" href="./public/img/icons/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="./manifest.json" />
+    <link
+      rel="shortcut icon"
+      href="./public/img/icons/favicon.ico"
+      type="image/x-icon"
+    />
     <!-- Font awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-</head>
-<body>
-    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+  </head>
+  <body>
     <div id="app" v-cloak>
-        <div class="split"  v-on:scroll="scrollTarget()">
-
-            <div class="type">
-                <h1>Benvenuto! 🎉</h1>
-                <p>Questa app è stata sviluppata dallo studente <span style="color: #4B8DF7;">Vitaliy Didyk</span> & <span style="color: #4B8DF7;">Riccardo Nicorlardi</span></p>
-                <p style="padding: 0 0 42px 0; font-size: 20px;">Se ti interessa visualizzare il codice sorgente, clicca il seguente <a href="https://github.com/MrTartuf0/Horatium" style="color: royalblue">link</a></p>
-                <p>Scegli la tipologia di orario: </p>
-                <div class="flex-type">
-                    <button v-for="(scheduleType , index) in scheduleTypes[0]" v-bind="$attrs" @click.stop="updateType(scheduleType) , avanti()"> 
-                        <i :class="scheduleTypes[1][index]"></i>
-                        {{ scheduleType }}
-                        <!-- <i class="fa-solid fa-angle-right"></i> -->
-                    </button>
-                </div>
-            </div>
-
-            <div class="year" v-if="selectedType == 'Classi'">
-                <h1>Anno</h1>
-                <p>Seleziona l'anno: </p>
-                <div class="selezione">
-                    <div v-for="index in anni[0]" @click="updateYear(index)">
-                        <p :style="{backgroundColor: anni[2][index-1]}" >{{ index }}</p>
-                        <div>
-                            <p>{{ anni[1][index-1] }}</p>
-                            <i class="fa-solid fa-angle-right"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section" v-if="selectedType == 'Classi'">
-                <h1>Sezioni</h1>
-                <p>Scegli la sezione: </p>    
-                <div class="selezione">
-                    <div v-for="(classe , index) in classiMatrice[selectedYear-1]" @click="updateSection(classe)">
-                        <p>{{ emojiMatrix[selectedYear-1][index] }}</p>
-                        <div>
-                            <p>{{ classe }}</p>
-                            <i class="fa-solid fa-angle-right"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            
-            <div class="teacher" v-if="selectedType == 'Docenti'">
-                <h1>Docenti</h1>
-                <p>Scegli il docente: </p>
-                <div class="grid-button">
-                    <div v-for="docente in Docenti" @click="updateSection(docente)">
-                        {{ docente }}
-                    </div>
-                </div>
-            </div>
-
-            
-            <div class="classroom" v-if="selectedType == 'Aule'">
-                <h1>Piani</h1>
-                <p>Scegli il piano dell'aula: </p>
-                <div class="grid-button">
-                    <div v-for="piano in piani" @click="updateFloor(piano)">
-                        {{piano}}
-                    </div>
-                    <!-- {{ aule.length-4 > index && aula.replace(/[^\d]/g, '') < 300 || aula.replace(/[^\d]/g, '') == aule[index+1].replace(/[^\d]/g, '') ? aula.replace(/[^\d]/g, '') : aula}} -->
-                </div>
-            </div>
-
-
-            <div class="classroom" v-if="selectedType == 'Aule' ">
-                <h1>Aule</h1>
-                <p>Scegli l'aula: </p>
-                <div class="grid-button">
-                    <div v-for="(aula , index) in aule" @click="updateSection(aula)">
-                        {{ aula }}
-                        <!-- {{ aule.length-4 > index && aula.replace(/[^\d]/g, '') < 300 || aula.replace(/[^\d]/g, '') == aule[index+1].replace(/[^\d]/g, '') ? aula.replace(/[^\d]/g, '') : aula}} -->
-                    </div>
-                </div>
-            </div>
-
-            <section class="schedule">
-
-                <h1>{{ selectedClass }} {{ emoji[selectedClass] }} </h1>
-                
-                <div class="orientation">
-                    
-                    <div class="grid">
-                        <div class="item" 
-                        :class=" 'h' + materie.height , {itemZoom: index == selectedIndex && isSelected} " 
-                        :style="{backgroundColor: materie.backgroundColor}"  
-                        v-for="(materie , index) in orario[selectedType][selectedClass]" 
-                        @click="zoomSubject(materie , index)" 
-                        >
-                            
-                            <div v-if="materie.type == 'subject'" class="subjects" :style="{color: materie.color+'e0'}" >
-                                <p>{{ materie.classNumber }}</p>
-                                <p v-show="isSelected">{{ materie.teacher }}</p>
-                                <p v-show="isSelected">{{ materie.classRoom }}</p>
-                                <p>{{ materie.subject }}</p>
-                                <i v-show="isSelected" class="fa-solid fa-xmark"></i>
-                            </div>
-                            <p v-else class="dates">
-                                {{ materie.date }}
-                            </p>
-                        </div>
-                    </div> 
-                    
-                    <div class="hour">
-                        <div class="current hour-item">
-                            <i class="fa-solid fa-arrows-down-to-people"></i>
-                            <div>
-                                <p>Classe attuale: </p>
-                                <p>{{ currentSubject }}</p>
-                                <p>{{ getOrarioJSON(0) }}</p>
-                            </div>
-                        </div>
-                        <div class="next hour-item">
-                            <i class="fa-solid fa-person-walking"></i>
-                            <div>
-                                <p>Classe seguente: </p>
-                                <p>{{ nextSubject }}</p>
-                                <p>{{ getOrarioJSON(1) }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </section>
-
-            <div class="search">
-                <h1>Ricerca</h1>
-                <p>Cerca qualsiasi cosa: </p>
-                <input type="text" placeholder="&#xF002; Cerca qualsiasi cosa: " v-model="searchQuery">
-                <div class="grid-button">
-                    
-                    <div v-show="regexExpression.test(classe)" v-for="classe in classi" @click="updateSearchOption(classe , 'Classi')">
-                        {{ classe }}
-                    </div>
-
-                    <div v-show="regexExpression.test(docente)" v-for="docente in Docenti" @click="updateSearchOption(docente , 'Docenti')">
-                        {{ docente }}
-                    </div>
-                    
-                    <div v-show="regexExpression.test(aula)" v-for="aula in aule" @click="updateSearchOption(aula , 'Aule')">
-                        {{ aula }}
-                    </div>
-                </div>
-            </div>
-
-            <div class="settings">
-                <h1>Impostazioni:</h1>
-
-                <div class="impostazioni">
-                    <div @click="updatePage()">
-                        <p><i class="fa-solid fa-arrows-rotate"></i></p>
-                        <div>
-                            <p>Ricarica l'applicazione</p>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <p><i class="fa-solid fa-moon"></i></p>
-                        <div>
-                            <p>Tema: </p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <p><i class="fa-solid fa-font"></i></p>
-                        <div>
-                            <p>Font:</p> 
-                            <select>
-                                <option>Jetbrains Mono</option>
-                                <option>Poppins</option>
-                                <option>Inter</option>
-                                <option>Jost</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div>
-                        <p><i class="fa-brands fa-github"></i></p>
-                        <div>
-                            <p>Codice sorgente : </p>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
+      <div class="split" v-on:scroll="scrollTarget()">
+        <div class="type">
+          <h1>Benvenuto! 🎉</h1>
+          <p>
+            Questa app è stata sviluppata dallo studente
+            <span style="color: #4b8df7">Vitaliy Didyk</span> &
+            <span style="color: #4b8df7">Riccardo Nicorlardi</span>
+          </p>
+          <p style="padding: 0 0 42px 0; font-size: 20px">
+            Se ti interessa visualizzare il codice sorgente, clicca il seguente
+            <a
+              href="https://github.com/MrTartuf0/Horatium"
+              style="color: royalblue"
+              >link</a
+            >
+          </p>
+          <p>Scegli la tipologia di orario:</p>
+          <div class="flex-type">
+            <button
+              v-for="(scheduleType , index) in scheduleTypes[0]"
+              v-bind="$attrs"
+              @click.stop="updateType(scheduleType) , avanti()"
+            >
+              <i :class="scheduleTypes[1][index]"></i>
+              {{ scheduleType }}
+              <!-- <i class="fa-solid fa-angle-right"></i> -->
+            </button>
+          </div>
         </div>
 
-        <div class="menuBar">
-            <div class="menu-item" v-for="(item , index) in menuBar[0]" :class="{menuItemSelected : menuBar[2][index]}"  @click="changeMode(index)">
-                <i :class="menuBar[1][index]"></i>
-                <p>{{ item }}</p>
+        <div class="year" v-if="selectedType == 'Classi'">
+          <h1>Anno</h1>
+          <p>Seleziona l'anno:</p>
+          <div class="selezione">
+            <div v-for="index in anni[0]" @click="updateYear(index)">
+              <p :style="{backgroundColor: anni[2][index-1]}">{{ index }}</p>
+              <div>
+                <p>{{ anni[1][index-1] }}</p>
+                <i class="fa-solid fa-angle-right"></i>
+              </div>
             </div>
+          </div>
         </div>
 
+        <div class="section" v-if="selectedType == 'Classi'">
+          <h1>Sezioni</h1>
+          <p>Scegli la sezione:</p>
+          <div class="selezione">
+            <div
+              v-for="(classe , index) in classiMatrice[selectedYear-1]"
+              @click="updateSection(classe)"
+            >
+              <p>{{ emojiMatrix[selectedYear-1][index] }}</p>
+              <div>
+                <p>{{ classe }}</p>
+                <i class="fa-solid fa-angle-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="teacher" v-if="selectedType == 'Docenti'">
+          <h1>Docenti</h1>
+          <p>Scegli il docente:</p>
+          <div class="grid-button">
+            <div v-for="docente in Docenti" @click="updateSection(docente)">
+              {{ docente }}
+            </div>
+          </div>
+        </div>
+
+        <div class="classroom" v-if="selectedType == 'Aule'">
+          <h1>Piani</h1>
+          <p>Scegli il piano dell'aula:</p>
+          <div class="grid-button">
+            <div v-for="piano in piani" @click="updateFloor(piano)">
+              {{piano}}
+            </div>
+            <!-- {{ aule.length-4 > index && aula.replace(/[^\d]/g, '') < 300 || aula.replace(/[^\d]/g, '') == aule[index+1].replace(/[^\d]/g, '') ? aula.replace(/[^\d]/g, '') : aula}} -->
+          </div>
+        </div>
+
+        <div class="classroom" v-if="selectedType == 'Aule' ">
+          <h1>Aule</h1>
+          <p>Scegli l'aula:</p>
+          <div class="grid-button">
+            <div v-for="(aula , index) in aule" @click="updateSection(aula)">
+              {{ aula }}
+              <!-- {{ aule.length-4 > index && aula.replace(/[^\d]/g, '') < 300 || aula.replace(/[^\d]/g, '') == aule[index+1].replace(/[^\d]/g, '') ? aula.replace(/[^\d]/g, '') : aula}} -->
+            </div>
+          </div>
+        </div>
+
+        <section class="schedule">
+          <h1>{{ selectedClass }} {{ emoji[selectedClass] }}</h1>
+
+          <div class="orientation">
+            <div class="grid">
+              <div
+                class="item"
+                :class=" 'h' + materie.height , {itemZoom: index == selectedIndex && isSelected} "
+                :style="{backgroundColor: materie.backgroundColor}"
+                v-for="(materie , index) in orario[selectedType][selectedClass]"
+                @click="zoomSubject(materie , index)"
+              >
+                <div
+                  v-if="materie.type == 'subject'"
+                  class="subjects"
+                  :style="{color: materie.color+'e0'}"
+                >
+                  <p>{{ materie.classNumber }}</p>
+                  <p v-show="isSelected">{{ materie.teacher }}</p>
+                  <p v-show="isSelected">{{ materie.classRoom }}</p>
+                  <p>{{ materie.subject }}</p>
+                  <i v-show="isSelected" class="fa-solid fa-xmark"></i>
+                </div>
+                <p v-else class="dates">{{ materie.date }}</p>
+              </div>
+            </div>
+
+            <div class="hour">
+              <div class="current hour-item">
+                <i class="fa-solid fa-arrows-down-to-people"></i>
+                <div>
+                  <p>Classe attuale:</p>
+                  <p>{{ currentSubject }}</p>
+                  <p>{{ getOrarioJSON(0) }}</p>
+                </div>
+              </div>
+              <div class="next hour-item">
+                <i class="fa-solid fa-person-walking"></i>
+                <div>
+                  <p>Classe seguente:</p>
+                  <p>{{ nextSubject }}</p>
+                  <p>{{ getOrarioJSON(1) }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="search">
+          <h1>Ricerca</h1>
+          <p>Cerca qualsiasi cosa:</p>
+          <input
+            type="text"
+            placeholder="&#xF002; Cerca qualsiasi cosa: "
+            v-model="searchQuery"
+          />
+          <div class="grid-button">
+            <div
+              v-show="regexExpression.test(classe)"
+              v-for="classe in classi"
+              @click="updateSearchOption(classe , 'Classi')"
+            >
+              {{ classe }}
+            </div>
+
+            <div
+              v-show="regexExpression.test(docente)"
+              v-for="docente in Docenti"
+              @click="updateSearchOption(docente , 'Docenti')"
+            >
+              {{ docente }}
+            </div>
+
+            <div
+              v-show="regexExpression.test(aula)"
+              v-for="aula in aule"
+              @click="updateSearchOption(aula , 'Aule')"
+            >
+              {{ aula }}
+            </div>
+          </div>
+        </div>
+
+        <div class="settings">
+          <h1>Impostazioni:</h1>
+
+          <div class="impostazioni">
+            <div @click="updatePage()">
+              <p><i class="fa-solid fa-arrows-rotate"></i></p>
+              <div>
+                <p>Ricarica l'applicazione</p>
+              </div>
+            </div>
+
+            <div>
+              <p><i class="fa-solid fa-moon"></i></p>
+              <div>
+                <p>Tema:</p>
+              </div>
+            </div>
+
+            <div>
+              <p><i class="fa-solid fa-font"></i></p>
+              <div>
+                <p>Font:</p>
+                <select>
+                  <option>Jetbrains Mono</option>
+                  <option>Poppins</option>
+                  <option>Inter</option>
+                  <option>Jost</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <p><i class="fa-brands fa-github"></i></p>
+              <div>
+                <p>Codice sorgente :</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menuBar">
+        <div
+          class="menu-item"
+          v-for="(item , index) in menuBar[0]"
+          :class="{menuItemSelected : menuBar[2][index]}"
+          @click="changeMode(index)"
+        >
+          <i :class="menuBar[1][index]"></i>
+          <p>{{ item }}</p>
+        </div>
+      </div>
     </div>
 
-
-
     <script type="module">
-        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
-        
-        import classi from './data/Classi.json' assert { type: "json" }
-        import classiMatrice from './data/classesMatrix.json' assert { type: "json" }
-        import Docenti from './data/Docenti.json' assert { type: "json" }
-        import aule from './data/Aule.json' assert { type: "json" }
-        import everything from './data/everyClassNameRoom.json' assert { type: "json" }
-        import emoji from './data/classEmoji.json' assert { type: "json" }
-        import emojiMatrix from './data/classEmojiMatrix.json' assert { type: "json" }
-        
-        import orario from './data/schedule.json' assert { type: "json" }
-        
-        let app = createApp({
-            data(){
-                return{
-                    emoji,
-                    emojiMatrix,
+      import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js";
 
-                    classi,
-                    classiMatrice,
-                    aule,
-                    Docenti,
-                    everything,
-                    
-                    orario,
-                    
-                    menuBar: [
-                        ['Home' , 'Orario' , 'Ricerca' , 'Impost.'],
-                        ['fa-solid fa-house' , 'fa-regular fa-clock' , 'fa-solid fa-magnifying-glass' , 'fa-solid fa-gear'],
-                        [true , false , false , false]
-                    ],
-                    anni: [
-                        [1,2,3,4,5],
-                        ['Primo' , 'Secondo' , 'Terzo' , 'Quarto' , 'Quinto'],
-                        ['#70D370', '#4B8DF7', '#6E4AC0', '#EF904B', '#F7CD4A']
-                    ],
-                    piani: ['Piano Terra' , 'Primo Piano' , 'Secondo Piano'],
-                    scheduleTypes: [
-                        ['Classi', 'Docenti', 'Aule'],
-                        ['fa-solid fa-graduation-cap','fa-solid fa-chalkboard-user', 'fa-solid fa-users-rectangle']
-                    ],
-                    giorni: ['LUN' , 'MAR' , 'MER' , 'GIO' , 'VEN' , 'SAB'],
-                    
-                    
-                    lastCheckedMenu: 0,
-                    selectedYear: 0,
-                    selectedFloor: '',
-                    selectedIndex: -1,
-                    isSelected: false,
-                    selectedMenu: 0,
-                    selectedType: 'Classi',
-                    selectedClass: '4CIA',
-                    searchQuery: "",   
-                    currentSubject: '',
-                    nextSubject: '',
-                    windowWidth: window.innerWidth,
+      import classi from "./data/Classi.json" assert { type: "json" };
+      import classiMatrice from "./data/classesMatrix.json" assert { type: "json" };
+      import Docenti from "./data/Docenti.json" assert { type: "json" };
+      import aule from "./data/Aule.json" assert { type: "json" };
+      import everything from "./data/everyClassNameRoom.json" assert { type: "json" };
+      import emoji from "./data/classEmoji.json" assert { type: "json" };
+      import emojiMatrix from "./data/classEmojiMatrix.json" assert { type: "json" };
+
+      import orario from "./data/schedule.json" assert { type: "json" };
+
+      let app = createApp({
+        data() {
+          return {
+            emoji,
+            emojiMatrix,
+
+            classi,
+            classiMatrice,
+            aule,
+            Docenti,
+            everything,
+
+            orario,
+
+            menuBar: [
+              ["Home", "Orario", "Ricerca", "Impost."],
+              [
+                "fa-solid fa-house",
+                "fa-regular fa-clock",
+                "fa-solid fa-magnifying-glass",
+                "fa-solid fa-gear",
+              ],
+              [true, false, false, false],
+            ],
+            anni: [
+              [1, 2, 3, 4, 5],
+              ["Primo", "Secondo", "Terzo", "Quarto", "Quinto"],
+              ["#70D370", "#4B8DF7", "#6E4AC0", "#EF904B", "#F7CD4A"],
+            ],
+            piani: ["Piano Terra", "Primo Piano", "Secondo Piano"],
+            scheduleTypes: [
+              ["Classi", "Docenti", "Aule"],
+              [
+                "fa-solid fa-graduation-cap",
+                "fa-solid fa-chalkboard-user",
+                "fa-solid fa-users-rectangle",
+              ],
+            ],
+            giorni: ["LUN", "MAR", "MER", "GIO", "VEN", "SAB"],
+
+            lastCheckedMenu: 0,
+            selectedYear: 0,
+            selectedFloor: "",
+            selectedIndex: -1,
+            isSelected: false,
+            selectedMenu: 0,
+            selectedType: "Classi",
+            selectedClass: "4CIA",
+            searchQuery: "",
+            currentSubject: "",
+            nextSubject: "",
+            windowWidth: window.innerWidth,
+          };
+        },
+        methods: {
+          updateFloor(piano) {
+            console.log(piano);
+            this.selectedFloor = piano;
+            this.avanti();
+          },
+          updateYear(year) {
+            this.selectedYear = year;
+            console.log(this.selectedYear);
+            this.avanti();
+          },
+          updateSection(classe) {
+            this.selectedClass = classe;
+            console.log(this.selectedClass);
+            this.avanti();
+          },
+          updateSearchOption(searchElement, searchType) {
+            console.log(searchElement);
+            console.log(searchType);
+            console.log(this.searchQuery);
+            this.selectedType = searchType;
+            this.selectedClass = searchElement;
+            this.indietro();
+          },
+          updateType(scheduleType) {
+            this.selectedType = scheduleType;
+            console.log(this.selectedType);
+          },
+          zoomSubject(materie, index) {
+            console.clear();
+            if (materie.type != undefined) {
+              this.selectedIndex = index;
+              this.isSelected = !this.isSelected;
+            }
+
+            console.log(materie.type);
+            console.log(this.selectedIndex);
+            console.log(this.isSelected);
+          },
+          avanti() {
+            document.querySelector(".split").scrollBy({
+              top: 0,
+              left: window.innerWidth,
+              behavior: "smooth",
+            });
+            console.log("avanti");
+            this.isSelected = false;
+
+            console.log(this.toDay);
+            console.log(this.toHour);
+          },
+          indietro() {
+            document.querySelector(".split").scrollBy({
+              top: 0,
+              left: -window.innerWidth,
+              behavior: "smooth",
+            });
+            console.log("indietro");
+            this.isSelected = false;
+          },
+          changeMode(index) {
+            console.clear();
+
+            let nPages = document.querySelector(".split").childElementCount;
+            let selectedMode =
+              index == 0 ? index : nPages - (this.menuBar[0].length - index);
+
+            console.log("Numero della schermata selezionaata " + selectedMode);
+
+            for (let i = 0; i < this.menuBar[2].length; i++) {
+              this.menuBar[2][i] = false;
+            }
+
+            this.menuBar[2][index] = true;
+
+            console.log(this.menuBar[2]);
+
+            document.querySelector(".split").scroll({
+              top: 0,
+              left: this.windowWidth * selectedMode,
+              behavior: "smooth",
+            });
+
+            this.isSelected = false;
+          },
+          updatePage() {
+            localStorage.clear();
+            window.location.reload();
+          },
+
+          getOrarioJSON(typeHour) {
+            let baseURL = "https://api.rickyscloud.com/getClassByHour";
+            let currentDay = this.giorni[new Date().getDay() - 1];
+            console.log(currentDay);
+            let currentHour =
+              typeHour == 0 ? new Date().getHours() : new Date().getHours() + 1;
+
+            let url = `${baseURL}/${this.selectedClass}/${currentDay}/${currentHour}`;
+
+            fetch(url)
+              .then((res) => res.json())
+              .then((out) => {
+                console.log("materiea" + out.materia);
+                // let paragraphs = out.materia.match(/(?=\S*['-])([0-9-a-zA-Z'-]+)/gi)
+                let paragraphs = out.aula;
+                console.log("paragrafo regedx : " + paragraphs);
+                if (typeHour == 0) {
+                  this.currentSubject = paragraphs;
+                  console.log(paragraphs);
+                } else {
+                  this.nextSubject = paragraphs;
+                  console.log(paragraphs);
                 }
-            },
-            methods: {
-                updateFloor(piano){
-                    console.log(piano)
-                    this.selectedFloor = piano
-                    this.avanti()
-                },
-                updateYear(year) {
-                    this.selectedYear = year
-                    console.log(this.selectedYear)
-                    this.avanti()
-                },
-                updateSection(classe){
-                    this.selectedClass = classe
-                    console.log(this.selectedClass)
-                    this.avanti()
-                },
-                updateSearchOption(searchElement , searchType){
-                    console.log(searchElement);
-                    console.log(searchType);
-                    console.log(this.searchQuery);
-                    this.selectedType = searchType
-                    this.selectedClass = searchElement
-                    this.indietro()
-                },
-                updateType(scheduleType){
-                    this.selectedType = scheduleType
-                    console.log(this.selectedType)
-                },
-                zoomSubject(materie , index){
-                    console.clear()
-                    if(materie.type != undefined){
-                        this.selectedIndex = index
-                        this.isSelected = !this.isSelected
-                    }
+              })
+              .catch((err) => {
+                throw err;
+              });
+          },
 
-                    console.log(materie.type)
-                    console.log(this.selectedIndex)
-                    console.log(this.isSelected)
-                },
-                avanti(){
-                    document.querySelector('.split').scrollBy({
-                        top: 0,
-                        left: window.innerWidth,
-                        behavior: 'smooth'
-                    })
-                    console.log('avanti')
-                    this.isSelected = false
+          scrollTarget() {
+            this.selectedMenu = document.querySelector(".split").scrollLeft;
+            console.log(this.selectedMenu);
+          },
+        },
+        mounted() {
+          if (localStorage.selectedClass) {
+            this.selectedClass = localStorage.selectedClass;
+          }
+          if (localStorage.selectedType) {
+            this.selectedType = localStorage.selectedType;
+          }
+          if (localStorage.selectedMenu) {
+            this.selectedMenu = localStorage.selectedMenu;
+            document.querySelector(".split").scrollLeft =
+              localStorage.selectedMenu;
+          }
+        },
+        watch: {
+          selectedClass(newSelectedClass) {
+            localStorage.selectedClass = newSelectedClass;
+          },
+          selectedType(newSelectedType) {
+            localStorage.selectedType = newSelectedType;
+          },
+          selectedMenu(newSelectedMenu) {
+            localStorage.selectedMenu = newSelectedMenu;
+          },
+        },
+        computed: {
+          regexExpression() {
+            return new RegExp(this.searchQuery, "gmi");
+          },
+        },
+      });
 
-                    console.log(this.toDay);
-                    console.log(this.toHour);
-                },
-                indietro(){
-                    document.querySelector('.split').scrollBy({
-                        top: 0,
-                        left: -window.innerWidth,
-                        behavior: 'smooth'
-                    })
-                    console.log('indietro')
-                    this.isSelected = false
-                },
-                changeMode(index){
-                    console.clear()
-                    
-                    let nPages = document.querySelector('.split').childElementCount
-                    let selectedMode = (index == 0) ? index : nPages - (this.menuBar[0].length - index)
-
-                    console.log('Numero della schermata selezionaata ' + selectedMode)
-
-                    for(let i=0 ; i<this.menuBar[2].length ; i++){
-                        this.menuBar[2][i] = false
-                    }
-                    
-                    this.menuBar[2][index] = true
-
-                    console.log(this.menuBar[2]);
-
-                    document.querySelector('.split').scroll({
-                        top: 0,
-                        left: this.windowWidth * selectedMode,
-                        behavior: 'smooth'
-                    })
-
-                    this.isSelected = false
-                    
-                },
-                updatePage(){
-                    localStorage.clear()
-                    window.location.reload();
-                },
-
-                getOrarioJSON(typeHour) {
-                    let baseURL = 'https://api.rickyscloud.com/getClassByHour'
-                    let currentDay = this.giorni[new Date().getDay()-1] 
-                    console.log(currentDay);
-                    let currentHour = (typeHour == 0) ? new Date().getHours() : new Date().getHours()+1 
-
-                    let url = `${baseURL}/${this.selectedClass}/${currentDay}/${currentHour}`
-
-                    fetch(url)
-                    .then(res => res.json())
-                    .then((out) => {
-                        console.log("materiea" + out.materia);
-                        // let paragraphs = out.materia.match(/(?=\S*['-])([0-9-a-zA-Z'-]+)/gi)
-                        let paragraphs = out.aula
-                        console.log("paragrafo regedx : " + paragraphs);
-                        if(typeHour == 0){
-                            this.currentSubject = paragraphs
-                            console.log(paragraphs);
-                        }
-                        else{
-                            this.nextSubject = paragraphs
-                            console.log(paragraphs);
-                        }
-                    })
-                    .catch(err => { throw err });
-
-                },
-
-                scrollTarget(){
-                    this.selectedMenu = document.querySelector('.split').scrollLeft
-                    console.log(this.selectedMenu);
-                },
-
-            },
-            mounted() {
-        
-                if (localStorage.selectedClass) {
-                    this.selectedClass = localStorage.selectedClass
-                }
-                if (localStorage.selectedType) {
-                    this.selectedType = localStorage.selectedType
-                }
-                if (localStorage.selectedMenu) {
-                    this.selectedMenu = localStorage.selectedMenu
-                    document.querySelector('.split').scrollLeft = localStorage.selectedMenu 
-                }
-            },
-            watch: {
-                selectedClass(newSelectedClass) {
-                    localStorage.selectedClass = newSelectedClass;
-                },
-                selectedType(newSelectedType) {
-                    localStorage.selectedType = newSelectedType;
-                },
-                selectedMenu(newSelectedMenu) {
-                    localStorage.selectedMenu = newSelectedMenu;
-                },
-            },
-            computed: {
-                regexExpression() {
-                    return new RegExp(this.searchQuery, "gmi");
-                },
-            },
-
-        })
-
-        const mountedApp = app.mount('#app')
-
+      const mountedApp = app.mount("#app");
     </script>
-</body>
+  </body>
 </html>
