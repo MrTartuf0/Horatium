@@ -137,7 +137,7 @@ if (!fs.existsSync(dir)){
 	// Tutti gli orari in un unico file
 	// il secondo null è per togliere l'identazione dal json
 	// salvando 1.2mb di spazio 
-	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, 4), (err, result) => {
+	fs.writeFile(`./data/schedule.json`, JSON.stringify(keySchedule, null, null), (err, result) => {
 		if (err) throw err;
 	});
 	
