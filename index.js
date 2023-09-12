@@ -10,14 +10,14 @@ if (!fs.existsSync(dir)){
 }
 
 (async () => {
-	const browser = await puppeteer.launch();
+	const browser = await puppeteer.launch({headless: 'new'});
 	const page = await browser.newPage();
 	
 	// PUBLIC SCHEDULE
 	// await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_pubblico/`);
 
 	// PRIVATE SCHEDULE
-	await page.goto(`https://ittterni.altervista.org//orario_itt_2022-2023_riservato/index.html`);
+	await page.goto(`https://ittterni.altervista.org//orario_itt_2023-2024_riservato/index.html`);
 
 	const allClasses = await page.evaluate(() => {
 		classes = Array.from(document.querySelectorAll('td')[0].querySelectorAll('p a'))
